@@ -1,21 +1,10 @@
 import { join } from 'path'
-import { debuglog } from 'util'
-
-const LOG = debuglog('nicer')
+import Http from '@contexts/http'
 
 /**
  * A testing context for the package.
  */
-export default class Context {
-  async _init() {
-    LOG('init context')
-  }
-  /**
-   * Example method.
-   */
-  example() {
-    return 'OK'
-  }
+export default class Context extends Http {
   /**
    * A tagged template that returns the relative path to the fixture.
    * @param {string} file
@@ -26,7 +15,21 @@ export default class Context {
     const f = file.raw[0]
     return join('test/fixture', f)
   }
-  async _destroy() {
-    LOG('destroy context')
+  getBoundary(req, res) {
+    const contentType = req.headers['content-type']
+    if (!contentType) {
+      res.status = 500
+      res.end('content-type not found')
+      return
+    }
+    let boundary = /; boundary=(.+)/.exec(contentType)
+    if (!boundary) {
+      res.status = 500
+      res.end('boundary not found')
+      return
+    }
+
+    ([, boundary] = boundary)
+    return boundary
   }
 }
