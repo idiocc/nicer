@@ -12,7 +12,7 @@ yarn add nicer
 
 - [Table Of Contents](#table-of-contents)
 - [API](#api)
-- [`newNicer(boundary: string)`](#newnicerboundary-string-void)
+- [`newNicer(boundary: string): Nicer`](#newnicerboundary-string-nicer)
   * [`_nicer.Nicer`](#type-_nicernicer)
 - [Copyright](#copyright)
 
@@ -28,7 +28,7 @@ import Nicer from 'nicer'
 
 <p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/1.svg?sanitize=true"></a></p>
 
-## `newNicer(`<br/>&nbsp;&nbsp;`boundary: string,`<br/>`): void`
+## `newNicer(`<br/>&nbsp;&nbsp;`boundary: string,`<br/>`): Nicer`
 
 Creates a transform that emits objects with header and body streams.
 

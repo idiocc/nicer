@@ -1,21 +1,20 @@
 ## API
 
-The package is available by importing its default function:
+The package is available by importing its default constructor function:
 
 ```js
-import nicer from 'nicer'
+import Nicer from 'nicer'
 ```
 
 %~%
 
-```## nicer
+```## newNicer => Nicer
 [
-  ["arg1", "string"],
-  ["arg2?", "boolean"]
+  ["boundary", "string"]
 ]
 ```
 
-Call this function to get the result you want.
+Creates a transform that emits objects with header and body streams.
 
 %TYPEDEF types/index.xml%
 
