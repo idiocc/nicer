@@ -1,5 +1,5 @@
 'use strict';
-// let DEPACK_EXPORT;
+
 const stream = require('stream');'use strict';
 const {PassThrough:e, Transform:f} = stream;
 function h(a, b) {
@@ -70,8 +70,8 @@ class l extends f {
     }
   }
 }
-;var DEPACK_EXPORT = {_Nicer:l};
+;let DEPACK_EXPORT = {_Nicer:l};
 
 
 module.exports = DEPACK_EXPORT
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=depack.js.map

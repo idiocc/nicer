@@ -1,4 +1,4 @@
-const { _Nicer } = require('./')
+const { _Nicer } = require('./depack')
 
 class Nicer extends _Nicer {
   /**
@@ -11,7 +11,7 @@ class Nicer extends _Nicer {
 }
 // var n = new Nicer()
 // n.on()
-// console.log('testing depack')
+console.log('testing depack')
 
 module.exports = Nicer
 
