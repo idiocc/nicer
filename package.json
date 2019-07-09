@@ -1,6 +1,6 @@
 {
   "name": "nicer",
-  "version": "0.0.0-pre",
+  "version": "0.1.0",
   "description": "An Http Multipart/Form-Data Request Body Parser.",
   "main": "compiler/index.js",
   "module": "src/index.js",
@@ -33,8 +33,17 @@
     "url": "git://github.com/idiocc/nicer.git"
   },
   "keywords": [
-    "nicer", "http", "multipart", "form-data", "file", "upload", "form", "data",
-    "request", "parser", "parse"
+    "nicer",
+    "http",
+    "multipart",
+    "form-data",
+    "file",
+    "upload",
+    "form",
+    "data",
+    "request",
+    "parser",
+    "parse"
   ],
   "author": "Anton <anton@adc.sh>",
   "license": "MIT",
