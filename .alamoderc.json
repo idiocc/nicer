@@ -7,6 +7,14 @@
           "to": "$1build"
         }
       }
+    },
+    "test-depack": {
+      "import": {
+        "replacement": {
+          "from": "^((../)+)src$",
+          "to": "$1"
+        }
+      }
     }
   }
 }

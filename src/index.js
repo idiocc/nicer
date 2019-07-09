@@ -7,11 +7,11 @@ export default class Nicer extends Transform {
   constructor(cfg) {
     const { readableHighWaterMark, writableHighWaterMark, boundary } = cfg || {}
     if (!boundary) throw new Error("please pass the boundary")
-    super({
+    super(/** @type {!stream.TransformOptions} */({
       // readableHighWaterMark,
       writableHighWaterMark,
       readableObjectMode: true,
-    })
+    }))
     /** @type {string} */
     this.buffer = ''
     this.needle = boundary
@@ -22,6 +22,8 @@ export default class Nicer extends Transform {
     this.state = 'start'
     this.header = ''
     this.bodyWritten = 0
+
+    this.bodyStream = null
   }
 
   // * @param {boolean} isNewPart

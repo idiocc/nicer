@@ -36,7 +36,7 @@ __<a name="type-_nicernicer">`_nicer.Nicer`</a>__: A stream that emits objects w
 
 |     Name      |      Type       |          Description           |
 | ------------- | --------------- | ------------------------------ |
-| __boundary*__ | <em>string</em> | The mandatory field separater. |
+| __boundary*__ | <em>string</em> | The mandatory field separator. |
 
 ```js
 import { Transform } from 'stream'

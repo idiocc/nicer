@@ -9,5 +9,5 @@ export {}
  */
 /**
  * @typedef {Object} _nicer.$Nicer A stream that emits objects with a header buffer and the body PassThrough stream.
- * @prop {string} boundary The mandatory field separater.
+ * @prop {string} boundary The mandatory field separator.
  */

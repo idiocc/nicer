@@ -12,6 +12,7 @@
       "env": {
         "NODE_DEBUG": "nicer",
         "DEBUG": "nicer",
+        "ALAMODE_ENV": "test-depack",
       },
       "console": "integratedTerminal",
       "args": [

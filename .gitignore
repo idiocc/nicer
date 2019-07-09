@@ -57,3 +57,5 @@ typings/
 # dotenv environment variables file
 .env
 .documentary/cache
+img.JPG_original
+cat.JPG_original

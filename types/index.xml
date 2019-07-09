@@ -1,7 +1,7 @@
 <types namespace="_nicer">
   <type extends="stream.Transform" name="Nicer" desc="A stream that emits objects with a header buffer and the body PassThrough stream.">
     <prop string name="boundary">
-      The mandatory field separater.
+      The mandatory field separator.
     </prop>
   </type>
 </types>
