@@ -1,9 +1,51 @@
 /* alanode example/ */
-import nicer from '../src'
+import Http from '@contexts/http'
+const http = new Http()
+import Context from '../test/context'
+const c = new Context()
+const { getBoundary } = c
+/* start example */
+import { Transform } from 'stream'
+import Nicer from '../src'
 
-(async () => {
-  const res = await nicer({
-    text: 'example',
+
+const run = async () => {
+  /* start example */
+  await http.startPlain((req, res) => {
+    const boundary = getBoundary(req, res)
+    console.log('Boundary detected: %s', boundary)
+    req.pipe(new Nicer({ boundary })).pipe(new Transform({
+      objectMode: true,
+      transform(obj, enc, next) {
+        console.log('Data from Nicer %O , stream: %s', obj.header, typeof obj)
+        next()
+      },
+      final() {
+        res.statusCode = 200
+        res.end('hello world')
+      },
+    }))
   })
-  console.log(res)
+  /* end example */
+    .postForm('/', (form) => {
+      form.addSection('key', 'value')
+      form.addSection('alan', 'watts')
+      // await form.addFile('test/fixture/cat.JPG', 'the-cat')
+    })
+    .assert(200, 'hello world')
+
+  // const res = await nicer({
+  //   text: 'example',
+  // })
+  // console.log(res)
+}
+
+;(async () => {
+  try {
+    await run()
+  } catch (err) {
+    console.log(err)
+  } finally {
+    await http._destroy()
+  }
 })()
