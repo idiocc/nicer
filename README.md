@@ -8,6 +8,8 @@
 yarn add nicer
 ```
 
+> THIS IS A PRE-v1 RELEASE SO IT's HUGELY EXPERIMENTAL AND WORKS FOR
+> DATA RECEIVED ALL IN ONE CHUNK
 ## Table Of Contents
 
 - [Table Of Contents](#table-of-contents)
