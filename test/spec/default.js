@@ -1,3 +1,4 @@
+import { equal } from '@zoroaster/assert'
 import Context from '../context'
 import Nicer from '../../src'
 import { Duplex } from 'stream'
@@ -7,7 +8,7 @@ import { collect } from 'catchment'
 const T = {
   context: Context,
   'is a function'() {
-    // equal(typeof nicer, 'function')
+    equal(typeof Nicer, 'function')
   },
   async 'parses data'({ startPlain, getBoundary, fixture }) {
     await startPlain(async (req, res) => {

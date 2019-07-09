@@ -42,16 +42,14 @@ __<a name="type-_nicernicer">`_nicer.Nicer`</a>__: A stream that emits objects w
 import { Transform } from 'stream'
 import Nicer from 'nicer'
 
-
-const run = async () => {
-/* start example */
 await http.startPlain((req, res) => {
   const boundary = getBoundary(req, res)
   console.log('Boundary detected: %s', boundary)
   req.pipe(new Nicer({ boundary })).pipe(new Transform({
     objectMode: true,
     transform(obj, enc, next) {
-      console.log('Data from Nicer %O , stream: %s', obj.header, typeof obj)
+      console.log('%s\n====', obj.header) // Data from Nicer:
+      obj.stream.pipe(process.stdout)
       next()
     },
     final() {
@@ -63,9 +61,13 @@ await http.startPlain((req, res) => {
 ```
 ```
 Boundary detected: u2KxIV5yF1y+xUspOQCCZopaVgeV6Jxihv35XQJmuTx8X3sh
-Data from Nicer '\r\nContent-Disposition: form-data; name="key"' , stream: object
-Switched to reading the header from reading body 5 bytes read
-Data from Nicer '\r\nContent-Disposition: form-data; name="key"' , stream: object
+
+Content-Disposition: form-data; name="key"
+====
+value
+Content-Disposition: form-data; name="alan"
+====
+watts
 ```
 
 <p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/2.svg?sanitize=true"></a></p>

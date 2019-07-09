@@ -1,5 +1,8 @@
 /* typal types/index.xml externs */
+/** @const */
+var _nicer = {}
 /**
- * @typedef {{ shouldRun: (boolean|undefined), text: string }}
+ * A stream that emits objects with a header buffer and the body PassThrough stream.
+ * @typedef {{ boundary: string }}
  */
-var Config
+_nicer.Nicer

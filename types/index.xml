@@ -1,10 +1,7 @@
 <types namespace="_nicer">
-  <type name="Config" desc="Options for the program.">
-    <prop boolean name="shouldRun" default="true">
-      A boolean option.
-    </prop>
-    <prop string name="text">
-      A text to return.
+  <type extends="stream.Transform" name="Nicer" desc="A stream that emits objects with a header buffer and the body PassThrough stream.">
+    <prop string name="boundary">
+      The mandatory field separater.
     </prop>
   </type>
 </types>
