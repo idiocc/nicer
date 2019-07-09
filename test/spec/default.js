@@ -9,7 +9,7 @@ const T = {
   'is a function'() {
     // equal(typeof nicer, 'function')
   },
-  async 'parses data'({ startPlain, getBoundary, fixture }) {
+  async '!parses data'({ startPlain, getBoundary, fixture }) {
     await startPlain(async (req, res) => {
       const boundary = getBoundary(req, res)
       if (!boundary) return
@@ -19,7 +19,7 @@ const T = {
         writableHighWaterMark: 5,
         // readableHighWaterMark: 5,
       })
-      const bt = new BufferTransform(500)
+      const bt = new BufferTransform(20)
       req.pipe(bt).pipe(nicer)
       const s = []
       nicer.on('data', ({ header, stream }) => {
@@ -37,6 +37,31 @@ const T = {
         await form.addFile(fixture`test.txt`, 'file')
       })
       .assert(200, ['world', 'data', 'a test file\n'])
+  },
+  async '!uploads files'({ startPlain, getBoundary, fixture }) {
+    await startPlain(async (req, res) => {
+      const boundary = getBoundary(req, res)
+      if (!boundary) return
+
+      const nicer = new Nicer({ boundary })
+      // const bt = new BufferTransform(500)
+      req.pipe(nicer)
+      const s = []
+      nicer.on('data', ({ header, stream }) => {
+        s.push(collect(stream))
+      })
+      nicer.on('end', async () => {
+        const data = await Promise.all(s)
+        res.setHeader('content-type', 'application/json')
+        res.end(JSON.stringify(data.map(d => d.length)))
+      })
+    })
+      .postForm('/', async (form) => {
+        form.addSection('hello', 'world')
+        form.addSection('test', 'data')
+        await form.addFile(fixture`cat.JPG`, 'photo')
+      })
+      .assert(200, ['5', '4', '1800000'])
   },
 }
 
