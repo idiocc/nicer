@@ -1,5 +1,10 @@
 import { join } from 'path'
 import Http from '@contexts/http'
+import { Duplex } from 'stream'
+import { format } from '../../benchmark/bytes'
+import Debug from '@idio/debug'
+
+const debug = new Debug('nicert')
 
 /**
  * A testing context for the package.
@@ -31,5 +36,55 @@ export default class Context extends Http {
 
     ([, boundary] = boundary)
     return boundary
+  }
+}
+
+
+export class BufferTransform extends Duplex {
+  constructor(highWaterMark) {
+    super({
+      highWaterMark,
+    })
+    /** @type {Buffer} */
+    this.buffer = new Buffer(0)
+    this.cb = null
+    this.readRes = null
+    this.cbCalled = false
+    this.red = 0
+  }
+  _read(size) {
+    const data = this.buffer.slice(0, size)
+    this.buffer = this.buffer.slice(size)
+    if (data.length) {
+      debug('Read %s from buffer', format(data.length))
+      this.delayRead = false
+      this.readRes = this.push(data)
+      this.red += data.length
+    } else {
+      debug('No data left. Delaying %s read until more data is ready.', format(size))
+      this.delayRead = size
+    }
+    if (this.cb && !this.cbCalled && !this.buffer.length) {
+      this.cbCalled = true
+      this.cb() // accept more incoming data now...
+    }
+  }
+  /**
+   * @param {Buffer} chunk
+   */
+  _write(chunk, encoding, cb) {
+    debug('Stored %s in buffer', format(chunk.length))
+    this.buffer = Buffer.concat([this.buffer, chunk])
+    this.cbCalled = false
+    this.cb = cb
+    if (this.delayRead) {
+      debug('Fulfilling the delayed read of %s.', format(this.delayRead))
+      this._read(this.delayRead)
+    }
+  }
+  _final(cb) {
+    debug('Total read %s', this.red)
+    this.push(null)
+    cb()
   }
 }

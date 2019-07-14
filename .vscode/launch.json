@@ -10,9 +10,8 @@
       "name": "Launch Zoroaster",
       "program": "${workspaceFolder}/node_modules/.bin/zoroaster",
       "env": {
-        "NODE_DEBUG": "nicer",
-        "DEBUG": "nicer",
-        "ALAMODE_ENV": "test-depack",
+        "DEBUG": "nicer,nicert",
+        // "ALAMODE_ENV": "test-depack",
       },
       "console": "integratedTerminal",
       "args": [
@@ -30,8 +29,31 @@
       "name": "Launch Example",
       "program": "${workspaceFolder}/node_modules/.bin/alanode",
       "console": "integratedTerminal",
+      "env": {
+        "NODE_DEBUG": "nicer",
+        "DEBUG": "nicer",
+        "ALAMODE_ENV": "test-depack",
+      },
       "args": [
         "example"
+      ],
+      "skipFiles": [
+        "<node_internals>/**/*.js"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Benchmark",
+      "program": "${workspaceFolder}/node_modules/.bin/alanode",
+      "console": "integratedTerminal",
+      "env": {
+        "NODE_DEBUG": "nicer",
+        "DEBUG": "nicer",
+        "ALAMODE_ENV": "test-depack",
+      },
+      "args": [
+        "benchmark"
       ],
       "skipFiles": [
         "<node_internals>/**/*.js"
