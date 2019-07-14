@@ -4,6 +4,7 @@ import Nicer from '../../src'
 import { collect } from 'catchment'
 import Debug from '@idio/debug'
 import { createReadStream } from 'fs'
+import Form from '@multipart/form'
 
 const debug = new Debug('nicert')
 
@@ -29,12 +30,12 @@ const T = {
       nicer.on('data', ({ header, stream }) => {
         debug('received header and stream')
         debug(`${header}`.substr(0, 50))
-        s.push(collect(stream))
+        s.push(collect(stream, { binary: 1 }))
       })
       nicer.on('end', async () => {
         const data = await Promise.all(s)
         res.setHeader('content-type', 'application/json')
-        res.end(JSON.stringify(data))
+        res.end(JSON.stringify(data.map(d => `${d}`)))
       })
     })
       .postForm('/', async (form) => {
@@ -50,11 +51,13 @@ const T = {
       if (!boundary) return
 
       const nicer = new Nicer({ boundary })
-      const bt = new BufferTransform(1024 * 10)
-      req.pipe(bt).pipe(nicer)
+      // const bt = new BufferTransform()
+      req
+        // .pipe(bt)
+        .pipe(nicer)
       const s = []
       nicer.on('data', ({ header, stream }) => {
-        s.push(collect(stream))
+        s.push(collect(stream, { binary: true }))
       })
       nicer.on('end', async () => {
         const data = await Promise.all(s)
@@ -67,7 +70,7 @@ const T = {
         form.addSection('test', 'data')
         await form.addFile(fixture`cat.JPG`, 'picture')
       })
-      .assert(200, ['5', '4', 1266310])
+      .assert(200, [5, 4, 1266310])
   },
   async 'reads small file'({ startPlain, getBoundary, fixture }) {
     await startPlain(async (req, res) => {
@@ -79,12 +82,16 @@ const T = {
       req.pipe(bt).pipe(nicer)
       const s = []
       nicer.on('data', ({ header, stream }) => {
-        s.push(collect(stream))
+        s.push(collect(stream, { binary: 1 }))
       })
       nicer.on('end', async () => {
         const data = await Promise.all(s)
         res.setHeader('content-type', 'application/json')
         res.end(JSON.stringify(data.map(d => d.length)))
+      })
+      nicer.on('error', () => {
+        res.statusCode = 500
+        res.end(null)
       })
     })
       .postForm('/', async (form) => {
@@ -111,6 +118,10 @@ const T = {
         res.setHeader('content-type', 'application/json')
         res.end(JSON.stringify(data))
       })
+      nicer.on('error', (err) => {
+        res.statusCode = 500
+        res.end(null)
+      })
     })
       .postForm('/', async (form) => {
         form.addSection('hello', 'world')
@@ -120,7 +131,57 @@ const T = {
   },
 }
 
-export const buffer = {
+export const simple = {
+  async 'parses file'({ fixture }) {
+    const form = new Form()
+    const nicer = new Nicer({ boundary: form.boundary })
+    form.addSection('hello', 'world')
+    form.addSection('test', 'data')
+    await form.addFile(fixture`cat.JPG`, 'picture')
+    nicer.end(form.buffer)
+    const s = []
+    const data = await new Promise((r, j) => {
+      nicer.on('data', ({ stream }) => {
+        s.push(collect(stream, { binary: true }))
+      })
+      nicer.on('end', async () => {
+        const d = await Promise.all(s)
+        r(d)
+      })
+      nicer.on('error', j)
+    })
+    return data.map(d => d.length)
+  },
+  async 'parses file in chunks'({ fixture }) {
+    const form = new Form()
+    const nicer = new Nicer({ boundary: form.boundary })
+    form.addSection('hello', 'world')
+    form.addSection('test', 'data')
+    await form.addFile(fixture`cat.JPG`, 'picture')
+    // nicer.end(form.buffer)
+    const s = []
+    const b=new BufferTransform(64*1024)
+    b.pipe(nicer)
+    b.end(form.buffer)
+    let c = collect(b, { binary: true })
+    const data = await new Promise((r, j) => {
+      nicer.on('data', ({ stream }) => {
+        s.push(collect(stream, { binary: true }))
+      })
+      nicer.on('end', async () => {
+        const d = await Promise.all(s)
+        r(d)
+      })
+      nicer.on('error', j)
+    })
+    c = await c
+    equal(c.length, 1266755)
+    return data.map(d => d.length)
+  },
+}
+
+// export
+const buffer = {
   async '!correctly writes buffer'() {
     const b = new BufferTransform(1024 * 10)
     const rs = createReadStream('test/fixture/cat.JPG')
