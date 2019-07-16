@@ -11,7 +11,7 @@
     "mask": "yarn t test/mask",
     "compile": "depack-dev src/depack -o compiler -a -l -p --externs types/externs.js",
     "test-build": "ALAMODE_ENV=test-build yarn test",
-    "test-compiler": "ALAMODE_ENV=test-compiler yarn test",
+    "test-compile": "ALAMODE_ENV=test-compiler yarn test",
     "lint": "eslint .",
     "doc": "NODE_DEBUG=doc doc -o README.md",
     "b": "alamode src -o build -s",

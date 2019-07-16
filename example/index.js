@@ -8,7 +8,7 @@ const { getBoundary } = c
 const run = async () => {
 /* start example */
 import { Transform } from 'stream'
-import Nicer from '../src'
+import Nicer from '..'
 
 const detected = []
 

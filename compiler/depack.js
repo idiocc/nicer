@@ -17,7 +17,7 @@ function t(a) {
     return u(a);
   }
   if ("number" == c && isFinite(a)) {
-    return b.w ? (b = Math.abs(a), a = 864E5 <= b ? w(a, b, 864E5, "day") : 36E5 <= b ? w(a, b, 36E5, "hour") : 6E4 <= b ? w(a, b, 6E4, "minute") : 1000 <= b ? w(a, b, 1000, "second") : a + " ms") : (b = Math.abs(a), a = 864E5 <= b ? Math.round(a / 864E5) + "d" : 36E5 <= b ? Math.round(a / 36E5) + "h" : 6E4 <= b ? Math.round(a / 6E4) + "m" : 1000 <= b ? Math.round(a / 1000) + "s" : a + "ms"), a;
+    return b.v ? (b = Math.abs(a), a = 864E5 <= b ? w(a, b, 864E5, "day") : 36E5 <= b ? w(a, b, 36E5, "hour") : 6E4 <= b ? w(a, b, 6E4, "minute") : 1000 <= b ? w(a, b, 1000, "second") : a + " ms") : (b = Math.abs(a), a = 864E5 <= b ? Math.round(a / 864E5) + "d" : 36E5 <= b ? Math.round(a / 36E5) + "h" : 6E4 <= b ? Math.round(a / 6E4) + "m" : 1000 <= b ? Math.round(a / 1000) + "s" : a + "ms"), a;
   }
   throw Error("val is not a non-empty string or a valid number. val=" + JSON.stringify(a));
 }
@@ -147,11 +147,11 @@ function D(a) {
   var b = y.load();
   a.save(b);
   a.b = [];
-  a.f = [];
+  a.c = [];
   let c;
   const d = ("string" == typeof b ? b : "").split(/[\s,]+/), f = d.length;
   for (c = 0; c < f; c++) {
-    d[c] && (b = d[c].replace(/\*/g, ".*?"), "-" == b[0] ? a.f.push(new RegExp("^" + b.substr(1) + "$")) : a.b.push(new RegExp("^" + b + "$")));
+    d[c] && (b = d[c].replace(/\*/g, ".*?"), "-" == b[0] ? a.c.push(new RegExp("^" + b.substr(1) + "$")) : a.b.push(new RegExp("^" + b + "$")));
   }
   for (c = 0; c < a.a.length; c++) {
     b = a.a[c], b.enabled = a.enabled(b.namespace);
@@ -168,7 +168,7 @@ class E {
     this.formatters = a.formatters || {};
     this.a = [];
     this.b = [];
-    this.f = [];
+    this.c = [];
   }
   destroy(a) {
     a = this.a.indexOf(a);
@@ -180,8 +180,8 @@ class E {
     }
     let b, c;
     b = 0;
-    for (c = this.f.length; b < c; b++) {
-      if (this.f[b].test(a)) {
+    for (c = this.c.length; b < c; b++) {
+      if (this.c[b].test(a)) {
         return !1;
       }
     }
@@ -203,13 +203,13 @@ function A(a) {
  Copyright(c) 2015 Jed Watson
  MIT Licensed
 */
-const F = /(?:\.0*|(\.[^0]+)0+)$/, G = {v:1, l:1024, m:1048576, i:1073741824, u:Math.pow(1024, 4), s:Math.pow(1024, 5)};
+const F = /(?:\.0*|(\.[^0]+)0+)$/, G = {u:1, j:1024, l:1048576, h:1073741824, s:Math.pow(1024, 4), m:Math.pow(1024, 5)};
 function H(a) {
   if (!Number.isFinite(a)) {
     return null;
   }
   var b = Math.abs(a), c = "";
-  c && G[c.toLowerCase()] || (c = b >= G.s ? "PB" : b >= G.u ? "TB" : b >= G.i ? "GB" : b >= G.m ? "MB" : b >= G.l ? "KB" : "B");
+  c && G[c.toLowerCase()] || (c = b >= G.m ? "PB" : b >= G.s ? "TB" : b >= G.h ? "GB" : b >= G.l ? "MB" : b >= G.j ? "KB" : "B");
   a = (a / G[c.toLowerCase()]).toFixed(2);
   a = a.replace(F, "$1");
   return a + c;
@@ -249,7 +249,7 @@ function K(a, b) {
 }, N = (a, b) => {
   const c = a.slice(0, b);
   a = a.slice(b + 4);
-  return {c, data:a};
+  return {header:c, data:a};
 }, O = (a, b, c = "", d = 0) => {
   if (!a.length) {
     return b;
@@ -265,20 +265,20 @@ function K(a, b) {
   return a;
 };
 function P(a, b) {
-  a.g += b.length;
-  a.f.write(b);
+  a.f += b.length;
+  a.c.write(b);
   L("    \ud83d\udcdd  Wrote %s to body", H(b.length));
 }
 function Q(a, b) {
-  if (b.length && (a.c = O(a.c, b, "header", 6), b = a.c.indexOf("\r\n\r\n"), -1 != b)) {
-    const {c, data:d} = N(a.c, b);
+  if (b.length && (a.header = O(a.header, b, "header", 6), b = a.header.indexOf("\r\n\r\n"), -1 != b)) {
+    const {header:c, data:d} = N(a.header, b);
     a.a = "reading_body";
     const f = H(d.length);
     L("    \ud83d\uddd2  Found header at %s, data available <%s>\n       %s", K(`${b}`, "yellow"), f, "_".repeat(35 + `${b}`.length + f.length));
     R(c);
-    a.f = new h;
-    a.c = Buffer.from("");
-    a.push({c, stream:a.f});
+    a.c = new h;
+    a.header = Buffer.from("");
+    a.push({header:c, stream:a.c});
     P(a, d);
   }
 }
@@ -297,17 +297,18 @@ function T(a, b) {
     d = c + d.length;
     const e = b.slice(0, c);
     b = b.slice(d);
-    "start" == a.a ? (L("  \u2b50  Found starting boundary at index %s", K(`${c}`, "yellow")), a.a = "reading_header") : (L("  \ud83d\udd1b  Found boundary, data size %s", K(H(e.length), "magenta")), "reading_body" == a.a ? (U(a, e), a.a = "finished_body") : "reading_header" == a.a && a.c.length ? (c = Buffer.concat([a.c, e]), L("  \ud83d\uddd2  Found header and data of size <%s>", K(H(c.length) || "", "yellow")), R(c, 3), g.push(c), a.c = Buffer.from(""), a.a = "finished_body") : g.push(e));
+    "start" == a.a ? (L("  \u2b50  Found starting boundary at index %s", K(`${c}`, "yellow")), a.a = "reading_header") : (L("  \ud83d\udd1b  Found boundary, data size %s", K(H(e.length), "magenta")), "reading_body" == a.a ? (U(a, e), a.a = "finished_body") : "reading_header" == a.a && a.header.length ? (c = Buffer.concat([a.header, e]), L("  \ud83d\uddd2  Found header and data of size <%s>", K(H(c.length) || "", "yellow")), R(c, 3), g.push(c), a.header = Buffer.from(""), a.a = "finished_body") : 
+    g.push(e));
   }
   g.forEach(e => {
     const n = e.indexOf("\r\n\r\n");
     if (-1 == n) {
       throw Error("Did not find the end of header before boundary.");
     }
-    const {c:p, data:q} = N(e, n);
+    const {header:p, data:q} = N(e, n);
     e = new h;
     e.end(q);
-    a.push({c:p, stream:e});
+    a.push({header:p, stream:e});
     a.a = "finished_body";
   });
   L("\ud83d\udd0e  Finished boundary scan, buffer of length %s left, separators found: %s", H(b.length), f);
@@ -320,7 +321,7 @@ function T(a, b) {
   return "reading_body" == a.a ? (P(a, f), g) : "reading_header" == a.a ? (Q(a, f), g) : "start" == a.a ? g : b;
 }
 function U(a, b) {
-  a.f && (b && b.length && P(a, b), L("    \ud83d\udd12  Closing current data stream, total written: %s", H(a.g)), a.f.push(null), a.f = null, a.g = 0);
+  a.c && (b && b.length && P(a, b), L("    \ud83d\udd12  Closing current data stream, total written: %s", H(a.f)), a.c.push(null), a.c = null, a.f = 0);
 }
 class V extends k {
   constructor(a) {
@@ -330,12 +331,12 @@ class V extends k {
     }
     super({writableHighWaterMark:b, readableObjectMode:!0});
     this.b = Buffer.from("");
-    this.j = c;
-    this.h = `--${this.j}`;
+    this.i = c;
+    this.g = `--${this.i}`;
     this.a = "start";
-    this.c = Buffer.from("");
-    this.g = 0;
-    this.f = null;
+    this.header = Buffer.from("");
+    this.f = 0;
+    this.c = null;
   }
   _transform(a, b, c) {
     try {
@@ -347,7 +348,7 @@ class V extends k {
     c(null);
   }
   get boundary() {
-    return "start" == this.a ? this.h : `\r\n${this.h}`;
+    return "start" == this.a ? this.g : `\r\n${this.g}`;
   }
   _final(a) {
     if ("data-ended" == this.a) {
