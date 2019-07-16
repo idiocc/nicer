@@ -14,9 +14,9 @@ yarn add nicer
 
 ```
 benchmark/default.js
-Processed 105.38MB at 26.99mb/s
+Processed 105.38MB at 49.75mb/s
   ✓  sends 100mb of data with nicer
-Processed 105.38MB at 46.69mb/s
+Processed 105.38MB at 62.39mb/s
   ✓  sends 100mb of data with dicer
 
 🦅  Executed 2 tests.
