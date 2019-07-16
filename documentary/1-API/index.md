@@ -8,7 +8,7 @@ import Nicer from 'nicer'
 
 %~%
 
-```## newNicer => Nicer
+```## constructor => Nicer
 [
   ["boundary", "string"]
 ]
