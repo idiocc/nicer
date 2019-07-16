@@ -3,7 +3,7 @@ import Debug from '@idio/debug'
 import { format } from './bytes'
 import createMultipartBuffer from './create-buffer'
 
-const debug = new Debug('nicer')
+const debug = new Debug('nicerb')
 
 const BOUNDARY = '-----------------------------168072824752491622650073'
 const n = new Nicer({ boundary: BOUNDARY })

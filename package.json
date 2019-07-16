@@ -15,6 +15,7 @@
     "lint": "eslint .",
     "doc": "NODE_DEBUG=doc doc -o README.md",
     "b": "alamode src -o build -s",
+    "be": "DEBUG=nicerb alanode benchmark",
     "d": "yarn-s d1 externs",
     "d1": "typal types/index.js depack/require.js src -c -t types/index.xml",
     "externs": "typal types/externs.js",

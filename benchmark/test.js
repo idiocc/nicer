@@ -21,10 +21,15 @@ let l = 0
     req.pipe(nicer)
     const s = []
     nicer.on('data', ({ header, stream }) => {
-      console.log(`${header}`)
+      // console.log(`${header}`)
       s.push(collect(stream))
     })
     nicer.on('end', async () => {
+      const duration = +new Date - startTime
+      const totalSize = l/1024/1024
+      const mbPerSec = (totalSize / (duration / 1000)).toFixed(2)
+      console.log(mbPerSec)
+
       const data = await Promise.all(s)
       res.setHeader('content-type', 'application/json')
       res.end(JSON.stringify(data.map(f => f.length)))
@@ -41,9 +46,6 @@ let l = 0
     })
     .assert(200)
 
-  const duration = +new Date - startTime
-  const mbPerSec = (l / (duration / 1000)).toFixed(2)
-  console.log(mbPerSec)
 
   await http._destroy()
 })()
