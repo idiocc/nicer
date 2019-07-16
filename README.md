@@ -28,13 +28,12 @@ benchmark/default.js
 
 ```java
 ​
-​
-Processed 105.38MB at 38.94mb/s
-Processed 105.38MB at 38.63mb/s
-Processed 105.38MB at 52.37mb/s
-Processed 105.38MB at 55.67mb/s
-Processed 105.38MB at 63.10mb/s
-Processed 105.38MB at 69.10mb/s
+Processed 105.38MB at 45.48mb/s
+Processed 105.38MB at 48.90mb/s
+Processed 105.38MB at 52.72mb/s
+Processed 105.38MB at 54.18mb/s
+Processed 105.38MB at 70.02mb/s
+Processed 105.38MB at 75.00mb/s
 ​
 ​
 ```
@@ -199,7 +198,31 @@ The software can write debug information, when the `DEBUG=nicer` env variable is
 <tr><th>Debug <a href="example/debug.js">(<em>Source</em>)</a></th></tr>
 <tr><td>
 
-%EXAMPLE example/debug.js%
+```js
+import { Writable } from 'stream'
+import Nicer from '../src'
+
+const detected = []
+
+await http.startPlain((req, res) => {
+  const boundary = getBoundary(req, res)
+  console.log('Boundary detected: %s', boundary)
+  const nicer = new Nicer({ boundary })
+  const bt = new BufferTransform(50)
+
+  req.pipe(bt).pipe(nicer).pipe(new Writable({
+    objectMode: true,
+    write(obj, enc, next) {
+      const { header: HEADER, stream: STREAM } = obj
+      next()
+    },
+    final() {
+      res.statusCode = 200
+      res.end(JSON.stringify(detected))
+    },
+  }))
+})
+```
 </td></tr>
 <tr><td>The transform method appends data to the left-over buffer (which can usually be small enough to accommodate [--boundary.length-1] symbols) and consumes data. The data is consumed by first trying to find the boundary in the new buffer. If this is possible, then depending on the state of the parser, the data found before the separator is either flushed in an existing data stream, or appended to the existing header, which can then lead to body-flushing.</td></tr>
 <tr><td>

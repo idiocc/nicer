@@ -7,7 +7,7 @@ The software can write debug information, when the `DEBUG=nicer` env variable is
 <!-- block-start -->
 <tr><td>
 
-%EXAMPLE example/debug.js%
+%EXAMPLE: example/debug.js%
 </td></tr>
 <tr><td><md2html>
 
