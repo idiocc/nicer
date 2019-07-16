@@ -62,19 +62,24 @@ __<a name="type-_nicernicer">`_nicer.Nicer`</a>__: A stream that emits objects w
 import { Transform } from 'stream'
 import Nicer from 'nicer'
 
+const detected = []
+
 await http.startPlain((req, res) => {
   const boundary = getBoundary(req, res)
   console.log('Boundary detected: %s', boundary)
   req.pipe(new Nicer({ boundary })).pipe(new Transform({
     objectMode: true,
     transform(obj, enc, next) {
-      console.log('%s\n====', obj.header) // Data from Nicer:
-      obj.stream.pipe(process.stdout)
+      let d = []
+      detected.push(['%s\n====\n', obj.header, d, '\n'])
+      obj.stream.on('data', (data) => {
+        d.push(data)
+      })
       next()
     },
     final() {
       res.statusCode = 200
-      res.end('hello world')
+      res.end(JSON.stringify(detected))
     },
   }))
 })
@@ -84,10 +89,18 @@ Boundary detected: u2KxIV5yF1y+xUspOQCCZopaVgeV6Jxihv35XQJmuTx8X3sh
 
 Content-Disposition: form-data; name="key"
 ====
+ [ 'value' ] 
+
 
 Content-Disposition: form-data; name="alan"
 ====
-valuewatts
+ [ 'watts' ] 
+
+
+Content-Disposition: form-data; name="file"; filename="test/fixture/test.txt"
+Content-Type: application/octet-stream
+====
+ [ 'a test file\n' ]
 ```
 
 <p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/3.svg?sanitize=true"></a></p>
