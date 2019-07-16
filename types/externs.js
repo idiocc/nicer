@@ -6,3 +6,6 @@ var _nicer = {}
  * @typedef {{ boundary: string }}
  */
 _nicer.Nicer
+
+/** @type {string} */
+process.env.DEBUG

@@ -53,6 +53,4 @@ The data received by the 'transform' method, contains the { header, stream } pro
 <!-- /block-end -->
 </table>
 
-
-
 %~%

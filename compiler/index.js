@@ -11,7 +11,7 @@ class Nicer extends _Nicer {
 }
 // var n = new Nicer()
 // n.on()
-// console.log('testing depack')
+// console.log('testing compiler')
 
 module.exports = Nicer
 

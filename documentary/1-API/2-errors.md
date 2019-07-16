@@ -25,3 +25,5 @@ The parser will always check for the closing `--` and emit an error in the end, 
 </md2html></td></tr>
 <!-- /block-end -->
 </table>
+
+%~%

@@ -1,4 +1,42 @@
 const { PassThrough, Transform } = require('stream');
+let Debug = require('@idio/debug'); if (Debug && Debug.__esModule) Debug = Debug.default;
+const { format } = require('../benchmark/bytes');
+const { c: C, b: B } = require('erte');
+
+const debug = new Debug('nicer')
+
+const trunc = (s, l = 97) => {
+  let h = s.slice(0, l)
+  if (s.length >= l+3) h += '...'
+  else if (s.length == l+2) h += '..'
+  else if (s.length == l+1) h += '.'
+  return h
+}
+
+/**
+ * @param {Buffer} s
+ * @param {number} i The length of the boundary (\r\n\r\n)
+ */
+const splitHeader = (s, i) => {
+  const header = s.slice(0, i)
+  const data = s.slice(i + 4)
+  return { header, data }
+}
+
+/**
+ * @param {!Buffer} a
+ * @param {!Buffer} b
+ */
+const concatBuffer = (a, b, comment='', z=0) => {
+  if (!a.length) return b
+  if (!b.length) return a
+  const x = ' '.repeat(z)
+  if (comment) comment = `-${comment}`
+  debug('%s<concat%s>', x, comment)
+  const res = Buffer.concat([a, b])
+  debug('%s<concat%s> %s', x, comment, format(res.length))
+  return res
+}
 
 /**
  * @implements {_nicer.Nicer}
@@ -7,132 +45,147 @@ class Nicer extends Transform {
   constructor(cfg) {
     const { readableHighWaterMark, writableHighWaterMark, boundary } = cfg || {}
     if (!boundary) throw new Error("please pass the boundary")
-    super({
+    super(/** @type {!stream.TransformOptions} */({
       // readableHighWaterMark,
       writableHighWaterMark,
       readableObjectMode: true,
-    })
-    /** @type {string} */
-    this.buffer = ''
+    }))
+    /** @type {Buffer} */
+    this.buffer = Buffer.from('')
     this.needle = boundary
     this.BOUNDARY = `--${this.needle}`
 
-    // this.BOUNDARY_LENGTH = this.boundary.length
-
     this.state = 'start'
-    this.header = ''
+    /** @type {!Buffer} */
+    this.header = Buffer.from('')
     this.bodyWritten = 0
-  }
 
-  // * @param {boolean} isNewPart
-  // * @param {string} cb
+    this.bodyStream = null
+  }
   /**
-   * Content-Disposition: form-data; name="alan"
-
-     watt
-   * @param {string} data
+   * Stores the header data in internal buffer until it can find `\r\n\r\n` after which we know that
+   * the body started to be written. The body will finish with the boundary.
    */
-  parsePart(data) {
-    if (this.state == 'reading_header') {
-      this.writeHeader(data)
-    } else {
-      this.writeBody(data)
-    }
-  }
   writeHeader(data) {
-    this.header += data
+    if (!data.length) return
+    this.header = concatBuffer(this.header, data, 'header', 6)
     let i = this.header.indexOf('\r\n\r\n')
     if (i != -1) {
-      const header = this.header.substr(0, i)
-      const newData = data.substr(i + 4)
+      const { header, data: newData } = splitHeader(this.header, i)
       this.state = 'reading_body'
+      const dl = format(newData.length)
+      debug(`    🗒  Found header at %s, data available <%s>
+       %s`, C(i, 'yellow'), dl, '_'.repeat(35 + `${i}`.length + dl.length))
+
+      const h = trunc(header)
+      h.split(/\r?\n/).filter(Boolean).forEach(l => {
+        debug('       %s', C(B(l, 'blue')))
+      })
+
+      // if we know this part has finished, we can just flush it wil body as a string...
       this.bodyStream = new PassThrough()
-      this.bodyWritten = 0
-      this.header = ''
+      // this.bodyStream = new Readable({
+      //   read() {
+
+      //   },
+      // })
+      // this.bodyWritten = 0
+      this.resetHeader()
       this.push({ header, stream: this.bodyStream })
       this.writeBody(newData)
     }
   }
-  get nextCheckpoint() {
-    if (this.state == 'reading_body') {
-      // console.log('Switched to reading the header from reading body %s bytes read', this.bodyWritten)
-      this.finishCurrentStream() // just pushes null
-      this.state = 'reading_header'
-    }
-    return null
-    // else if (this.state == 'reading_header')
+  resetHeader() {
+    this.header = Buffer.from('')
   }
   writeBody(data) {
     this.bodyWritten += data.length
     this.bodyStream.write(data)
+    debug('    📝  Wrote %s to body', format(data.length))
   }
   _transform(chunk, enc, next) {
-    this.buffer += `${chunk}`
-
+    // console.log('RECEIVED %s', chunk.length)
     // this is the buffer with padding, so that a part of the boundary does not
     // end up in the body
-    // let safeBuffer
-    // const { boundary } = this
-    // if (this.buffer.length < boundary.length) {
-      // safeBuffer = this.buffer
-    // }
-    //  else if (this.state == 'start') {
-      // safeBuffer = this.buffer.slice(0, this.buffer.length) // allow for /r/n
-    // }
-    // else {
-      // safeBuffer = this.buffer.slice(0, this.buffer.length)
-    // }
-    // else
-      // safeBuffer = this.buffer.slice(0, this.buffer.length + (boundary.length) + 2)
-    // let safeBuffer = (
-      // this.state == 'start' ||
-      // ) ? this.buffer :
-      // this.buffer.slice(0, this.buffer.length - (this.boundary.length + 2))
-
-    const rest = this.consumeSafe(this.buffer)
-    this.buffer = rest
+    /*
+     The data that is coming can end half-way through the separator
+     so there is always a length left from the incoming buffers, which
+     equals to the length of the separator - 1
+     This will be handled in the _final call node 8
+    */
+    try {
+      this.buffer = concatBuffer(this.buffer, chunk, 'transform')
+      this.buffer = this.consumeAndUpdate()
+    } catch (err) {
+      next(err)
+      return
+    }
 
     next(null)
   }
   /**
    * Consumes all bytes in the safe buffer and updates the internal buffer to exclude the safe one leaving only the necessary padding.
    */
-  consumeAndUpdate(safeBuffer) {
-    // this.consumeSafe(safeBuffer) // assume all consumed
-    // this.buffer = this.buffer.slice(safeBuffer.length - 1)
+  consumeAndUpdate() {
+    const { buffer } = this
+    const rest = this.consumeSafe(buffer)
+    const howmuchconsumed = buffer.length - rest.length
+    const left = howmuchconsumed ? this.buffer.slice(howmuchconsumed) : this.buffer
+    debug('one consume safe consumed %s and left %s', format(howmuchconsumed), format(left.length))
+    return left
   }
   get boundary() {
     const boundary = this.state == 'start' ? this.BOUNDARY : `\r\n${this.BOUNDARY}`
     return boundary
   }
-  finishCurrentStream() {
-    if (this.bodyStream) {
-      this.bodyStream.push(null)
-      this.bodyStream = null
-    }
+  finishCurrentStream(data) {
+    if (!this.bodyStream) return
+
+    if (data && data.length) this.writeBody(data)
+    debug('    🔒  Closing current data stream, total written: %s', format(this.bodyWritten))
+    this.bodyStream.push(null)
+    this.bodyStream = null
+    this.bodyWritten = 0
   }
-  // should consume all safe bytes
+  /**
+   * Must make sure to keep some padding so it doesn't end up in the body.
+   * Can disregard the preamble buffer.
+   * @param {Buffer} buffer
+   */
   consumeSafe(buffer) {
-    let i, b, B = buffer
-    // let newBuffer = buffer
-    // either end of header or end of body
-    // let consumedLength = 0
-    let foundSeparator
+    // if (!buffer.length) return buffer
+    let i, b
+    let foundSeparator = 0
+    // this will only consume buffer until the after the boundary
+    debug('🔍  Staring boundary %s scan', C(trunc(this.boundary.trim(), 15), 'red'))
+    const toConsume = []
+
     while((i = buffer.indexOf(b = this.boundary)) != -1) {
-      foundSeparator = 1
+      foundSeparator++
       const offset = i + b.length
 
-      const data = buffer.substr(0, i)
-      buffer = buffer.substr(offset)
+      const data = buffer.slice(0, i)
+      buffer = buffer.slice(offset)
 
+      // when in here, guaranteed to have a body finished
       if (this.state == 'start') {
+        debug('  ⭐  Found starting boundary at index %s', C(i, 'yellow'))
         this.state = 'reading_header'
         continue
       }
-
-      this.nextCheckpoint
-      // this.finishCurrentStream()
-
+      debug('  🔛  Found boundary, part size %s', C(format(data.length), 'magenta'))
+      // what if state is reading body
+      if (this.state == 'reading_body') {
+        this.finishCurrentStream(data)
+        this.state = 'finished_body'
+      } else if (this.state == 'reading_header' && this.header.length) {
+        // headerToConsume = data
+        toConsume.push(Buffer.concat([this.header, data]))
+        this.resetHeader()
+        this.state = 'finished_body'
+        // found end
+      } else
+        toConsume.push(data)
 
       /**
        *  Content-Disposition: form-data; name="alan"
@@ -141,46 +194,86 @@ class Nicer extends Transform {
           --u2KxIV5yF1y+xUspOQCCZopaVgeV6Jxihv35XQJmuTx8X3sh--
           "
        */
-      // sync parse part
-      this.parsePart(data)
     }
+    toConsume.forEach((d) => {
+      const j = d.indexOf('\r\n\r\n')
+      if (j == -1) throw new Error('Did not find the end of header before boundary.')
+      const { header, data } = splitHeader(d, j)
+      const stream = new PassThrough()
+      stream.end(data)
+      this.push({ header, stream })
+      this.state = 'finished_body'
+    })
+    // debugger
 
-    // buffer is what's left
-    // const r = B.slice(0, B.length - buffer.length)
-    // consume as a body
-    if (this.state == 'reading_body' && foundSeparator
-      && (buffer[0] == '-' && buffer[1] == '-')) {
-      // this.writeBody(buffer)
-      // return B.length
-      // return buffer.length
-      this.finishCurrentStream()
+    // buffer will only be consumed by parts ie until the end of the separator
+    // OR WHEN IT'S a 100% data or header stream
+    // what's left is not handled
+
+    // OR HANDLE IT HERE
+    // -- END
+    // -- PUSH TO THE BODY or HEADER
+    debug('🔎  Finished boundary scan, buffer of length %s left, separators found: %s',
+      format(buffer.length), foundSeparator)
+
+    if (this.state == 'finished_body' && checkIsEnd(buffer)) {
+      debug('〰️  Special case, found %s after the boundary', C('--', 'red'))
+      this.state = 'data-ended'
       return buffer
-    } else if (this.state == 'reading_body') {
-      this.writeBody(buffer)
-      return ''
-    } else if (this.state == 'reading_header') {
-      this.writeHeader(buffer) // this can trigger write body
-      return ''
+    } else if (this.state == 'finished_body') {
+      this.state = 'reading_header'
     }
-    // return B.length
-    // or consume as a header
 
-    // return how much consumed
-    // return r
+    // we might have a header
+    const canSafelyWrite = this.safeBuffer(buffer)
+    const rest = buffer.slice(canSafelyWrite.length)
+    if (this.state == 'reading_body') {
+      this.writeBody(canSafelyWrite)
+      return rest
+    } else if (this.state == 'reading_header') {
+      this.writeHeader(canSafelyWrite)
+      return rest
+    } else if (this.state == 'start') {
+      return rest
+    }
+    return buffer
   }
+  /**
+   * Safe buffer is how much we can write confident that what we've written does not contain boundary.
+   * @param {Buffer} buffer
+   */
+  safeBuffer(buffer) {
+    const safeBuffer = buffer.slice(0, Math.max(0, buffer.length - this.boundary.length))
+    return safeBuffer
+  }
+  /**
+   * Final is called with what's left in the buffer at the end. If it doesn't finish property with --boundary--, emit an error.
+   */
   _final(cb) {
-    this.consumeAndUpdate(this.buffer)
-    if (this.bodyStream) this.bodyStream.push(null)
-    const endsWithDashes = /^--/.test(this.buffer)
-    try {
-      if (!endsWithDashes) {
-        const [a, b] = this.buffer
-        cb(new Error(`Unexpected end of request body, wanted to see "--" but saw ${a}${b}.`))
-      } else cb()
-    } finally {
+    if (this.state == 'data-ended') {
+      this.finishCurrentStream()
+      return cb()
+    }
+
+    this.buffer = this.consumeAndUpdate()
+    this.finishCurrentStream()
+
+    const isEnd = checkIsEnd(this.buffer)
+    if (!isEnd) {
+      let b = this.buffer.slice(0, 2).toString()
+      const e = new Error(`Unexpected end of request body, wanted to see "--" but saw ${b}.`)
+      cb(e)
+      this.push(e)
+    } else {
+      cb()
       this.push(null)
     }
   }
+}
+
+const checkIsEnd = (buffer) => {
+  const endsWithDashes = buffer[0] == 45 && buffer[1] == 45
+  return endsWithDashes
 }
 
 module.exports = Nicer
