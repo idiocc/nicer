@@ -18,9 +18,14 @@ await http.startPlain((req, res) => {
   req.pipe(new Nicer({ boundary })).pipe(new Transform({
     objectMode: true,
     transform(obj, enc, next) {
+      const { header: HEADER, stream: STREAM } = obj
+
+      // to print in sync have to wait for all data
+      // since STREAM is a pass-through
       let d = []
-      detected.push(['%s\n====\n', obj.header, d, '\n'])
-      obj.stream.on('data', (data) => {
+      detected.push(['%s\n====\n', HEADER, d])
+
+      STREAM.on('data', (data) => {
         d.push(data)
       })
       next()
@@ -53,7 +58,7 @@ await http.startPlain((req, res) => {
       })
 
       de.forEach((a) => {
-        console.log(...a)
+        console.log(...a, '\n')
       })
       // console.log(...de)
     })

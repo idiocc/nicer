@@ -1,7 +1,18 @@
 <types namespace="_nicer">
+  <import name="PassThrough" from="stream" link="https://nodejs.org/api/stream.html#stream_class_stream_passthrough" desc="Just passes the input bytes across to the output." />
+  <import name="Transform" from="stream" link="https://nodejs.org/api/stream.html#stream_class_stream_transform" desc="Implements both Readable and Writable interfaces." />
+
   <type extends="stream.Transform" name="Nicer" desc="A stream that emits objects with a header buffer and the body PassThrough stream.">
     <prop string name="boundary">
       The mandatory field separator.
+    </prop>
+  </type>
+  <type record name="NicerPart" desc="A part that gets emitted by _Nicer_.">
+    <prop type="stream.PassThrough" name="stream">
+      The mandatory field separator.
+    </prop>
+    <prop type="Buffer" name="header">
+      The header found before data.
     </prop>
   </type>
 </types>
