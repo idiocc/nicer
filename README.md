@@ -14,12 +14,26 @@ yarn add nicer
 
 ```
 benchmark/default.js
-Processed 105.38MB at 20.36mb/s
-  ✓  sends 100mb of data with nicer
-Processed 105.38MB at 24.71mb/s
-  ✓  sends 100mb of data with dicer
+Processed 105.38MB at 48.10mb/s
+  ✓  sends 100mb of data with nicer (1)
 
-🦅  Executed 2 tests.
+Processed 105.38MB at 52.01mb/s
+  ✓  sends 100mb of data with nicer (2)
+
+Processed 105.38MB at 54.46mb/s
+  ✓  sends 100mb of data with nicer-compiled
+
+Processed 105.38MB at 57.21mb/s
+  ✓  sends 100mb of data with nicer-compiled 2
+
+Processed 105.38MB at 71.93mb/s
+  ✓  sends 100mb of data with dicer (1)
+
+Processed 105.38MB at 57.52mb/s
+  ✓  sends 100mb of data with dicer (2)
+
+
+🦅  Executed 6 tests.
 ```
 </td></tr>
 <tr><td><a href="https://github.com/idiocc/nicer"><em>Nicer</em></a> is comparable to the faster streaming parser, <a href="https://github.com/idiocc/dicer"><em>Dicer</em></a> since the real-world data (uploading 2 fields, 2 text files and 50 photos) is processed at speeds of 46 and 60 Mb/s.</td></tr>
@@ -187,70 +201,70 @@ The software can write debug information, when the `DEBUG=nicer` env variable is
 <tr><td>
 
 ```sh
-2019-07-16T12:31:22.484Z nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan
-2019-07-16T12:31:22.485Z nicer 🔎  Finished boundary scan, buffer of length 50B left, separators found: 0
-2019-07-16T12:31:22.485Z nicer one consume safe consumed 0B and left 50B
-2019-07-16T12:31:22.486Z nicer <concat-transform>
-2019-07-16T12:31:22.486Z nicer <concat-transform> 100B
-2019-07-16T12:31:22.555Z nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan
-2019-07-16T12:31:22.555Z nicer   ⭐  Found starting boundary at index 2
-2019-07-16T12:31:22.555Z nicer 🔎  Finished boundary scan, buffer of length 48B left, separators found: 1
-2019-07-16T12:31:22.558Z nicer one consume safe consumed 52B and left 48B
-2019-07-16T12:31:22.559Z nicer <concat-transform>
-2019-07-16T12:31:22.559Z nicer <concat-transform> 98B
-2019-07-16T12:31:22.559Z nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan
-2019-07-16T12:31:22.559Z nicer 🔎  Finished boundary scan, buffer of length 98B left, separators found: 0
-2019-07-16T12:31:22.559Z nicer one consume safe consumed 46B and left 52B
-2019-07-16T12:31:22.559Z nicer <concat-transform>
-2019-07-16T12:31:22.559Z nicer <concat-transform> 102B
-2019-07-16T12:31:22.559Z nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan
-2019-07-16T12:31:22.560Z nicer   🔛  Found boundary, data size 7B
-2019-07-16T12:31:22.560Z nicer   🗒  Found header and data of size <53B>
-2019-07-16T12:31:22.560Z nicer      Content-Disposition: form-data; name="key"
-2019-07-16T12:31:22.560Z nicer      value
-2019-07-16T12:31:22.562Z nicer 🔎  Finished boundary scan, buffer of length 43B left, separators found: 1
-2019-07-16T12:31:22.562Z nicer one consume safe consumed 59B and left 43B
-2019-07-16T12:31:22.562Z nicer <concat-transform>
-2019-07-16T12:31:22.562Z nicer <concat-transform> 93B
-2019-07-16T12:31:22.562Z nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan
-2019-07-16T12:31:22.562Z nicer 🔎  Finished boundary scan, buffer of length 93B left, separators found: 0
-2019-07-16T12:31:22.563Z nicer one consume safe consumed 41B and left 52B
-2019-07-16T12:31:22.563Z nicer <concat-transform>
-2019-07-16T12:31:22.563Z nicer <concat-transform> 102B
-2019-07-16T12:31:22.563Z nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan
-2019-07-16T12:31:22.563Z nicer   🔛  Found boundary, data size 13B
-2019-07-16T12:31:22.563Z nicer   🗒  Found header and data of size <54B>
-2019-07-16T12:31:22.564Z nicer      Content-Disposition: form-data; name="alan"
-2019-07-16T12:31:22.564Z nicer      watts
-2019-07-16T12:31:22.564Z nicer 🔎  Finished boundary scan, buffer of length 37B left, separators found: 1
-2019-07-16T12:31:22.564Z nicer one consume safe consumed 65B and left 37B
-2019-07-16T12:31:22.564Z nicer <concat-transform>
-2019-07-16T12:31:22.564Z nicer <concat-transform> 87B
-2019-07-16T12:31:22.564Z nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan
-2019-07-16T12:31:22.565Z nicer 🔎  Finished boundary scan, buffer of length 87B left, separators found: 0
-2019-07-16T12:31:22.565Z nicer one consume safe consumed 35B and left 52B
-2019-07-16T12:31:22.565Z nicer <concat-transform>
-2019-07-16T12:31:22.565Z nicer <concat-transform> 102B
-2019-07-16T12:31:22.565Z nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan
-2019-07-16T12:31:22.565Z nicer 🔎  Finished boundary scan, buffer of length 102B left, separators found: 0
-2019-07-16T12:31:22.565Z nicer       <concat-header>
-2019-07-16T12:31:22.565Z nicer       <concat-header> 85B
-2019-07-16T12:31:22.565Z nicer one consume safe consumed 50B and left 52B
-2019-07-16T12:31:22.566Z nicer <concat-transform>
-2019-07-16T12:31:22.566Z nicer <concat-transform> 102B
-2019-07-16T12:31:22.566Z nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan
-2019-07-16T12:31:22.566Z nicer   🔛  Found boundary, data size 50B
-2019-07-16T12:31:22.567Z nicer   🗒  Found header and data of size <135B>
-2019-07-16T12:31:22.567Z nicer      Content-Disposition: form-data; name="file"; filename="test/fixture/test.txt"
-2019-07-16T12:31:22.567Z nicer      Content-Type: ap...
-2019-07-16T12:31:22.567Z nicer 🔎  Finished boundary scan, buffer of length 0B left, separators found: 1
-2019-07-16T12:31:22.567Z nicer one consume safe consumed 102B and left 0B
-2019-07-16T12:31:22.567Z nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan
-2019-07-16T12:31:22.567Z nicer 🔎  Finished boundary scan, buffer of length 4B left, separators found: 0
-2019-07-16T12:31:22.568Z nicer one consume safe consumed 0B and left 4B
-2019-07-16T12:31:22.570Z nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan
-2019-07-16T12:31:22.570Z nicer 🔎  Finished boundary scan, buffer of length 4B left, separators found: 0
-2019-07-16T12:31:22.570Z nicer one consume safe consumed 0B and left 4B
+2019-07-16T12:42:25.495Z nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan
+2019-07-16T12:42:25.496Z nicer 🔎  Finished boundary scan, buffer of length 50B left, separators found: 0
+2019-07-16T12:42:25.496Z nicer one consume safe consumed 0B and left 50B
+2019-07-16T12:42:25.497Z nicer <concat-transform>
+2019-07-16T12:42:25.497Z nicer <concat-transform> 100B
+2019-07-16T12:42:25.497Z nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan
+2019-07-16T12:42:25.497Z nicer   ⭐  Found starting boundary at index 2
+2019-07-16T12:42:25.497Z nicer 🔎  Finished boundary scan, buffer of length 48B left, separators found: 1
+2019-07-16T12:42:25.497Z nicer one consume safe consumed 52B and left 48B
+2019-07-16T12:42:25.498Z nicer <concat-transform>
+2019-07-16T12:42:25.498Z nicer <concat-transform> 98B
+2019-07-16T12:42:25.498Z nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan
+2019-07-16T12:42:25.498Z nicer 🔎  Finished boundary scan, buffer of length 98B left, separators found: 0
+2019-07-16T12:42:25.498Z nicer one consume safe consumed 46B and left 52B
+2019-07-16T12:42:25.498Z nicer <concat-transform>
+2019-07-16T12:42:25.498Z nicer <concat-transform> 102B
+2019-07-16T12:42:25.498Z nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan
+2019-07-16T12:42:25.498Z nicer   🔛  Found boundary, data size 7B
+2019-07-16T12:42:25.499Z nicer   🗒  Found header and data of size <53B>
+2019-07-16T12:42:25.499Z nicer      Content-Disposition: form-data; name="key"
+2019-07-16T12:42:25.499Z nicer      value
+2019-07-16T12:42:25.501Z nicer 🔎  Finished boundary scan, buffer of length 43B left, separators found: 1
+2019-07-16T12:42:25.502Z nicer one consume safe consumed 59B and left 43B
+2019-07-16T12:42:25.502Z nicer <concat-transform>
+2019-07-16T12:42:25.502Z nicer <concat-transform> 93B
+2019-07-16T12:42:25.502Z nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan
+2019-07-16T12:42:25.502Z nicer 🔎  Finished boundary scan, buffer of length 93B left, separators found: 0
+2019-07-16T12:42:25.502Z nicer one consume safe consumed 41B and left 52B
+2019-07-16T12:42:25.502Z nicer <concat-transform>
+2019-07-16T12:42:25.502Z nicer <concat-transform> 102B
+2019-07-16T12:42:25.503Z nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan
+2019-07-16T12:42:25.503Z nicer   🔛  Found boundary, data size 13B
+2019-07-16T12:42:25.503Z nicer   🗒  Found header and data of size <54B>
+2019-07-16T12:42:25.503Z nicer      Content-Disposition: form-data; name="alan"
+2019-07-16T12:42:25.503Z nicer      watts
+2019-07-16T12:42:25.503Z nicer 🔎  Finished boundary scan, buffer of length 37B left, separators found: 1
+2019-07-16T12:42:25.503Z nicer one consume safe consumed 65B and left 37B
+2019-07-16T12:42:25.504Z nicer <concat-transform>
+2019-07-16T12:42:25.504Z nicer <concat-transform> 87B
+2019-07-16T12:42:25.504Z nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan
+2019-07-16T12:42:25.504Z nicer 🔎  Finished boundary scan, buffer of length 87B left, separators found: 0
+2019-07-16T12:42:25.504Z nicer one consume safe consumed 35B and left 52B
+2019-07-16T12:42:25.504Z nicer <concat-transform>
+2019-07-16T12:42:25.504Z nicer <concat-transform> 102B
+2019-07-16T12:42:25.504Z nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan
+2019-07-16T12:42:25.523Z nicer 🔎  Finished boundary scan, buffer of length 102B left, separators found: 0
+2019-07-16T12:42:25.524Z nicer       <concat-header>
+2019-07-16T12:42:25.524Z nicer       <concat-header> 85B
+2019-07-16T12:42:25.524Z nicer one consume safe consumed 50B and left 52B
+2019-07-16T12:42:25.525Z nicer <concat-transform>
+2019-07-16T12:42:25.525Z nicer <concat-transform> 102B
+2019-07-16T12:42:25.525Z nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan
+2019-07-16T12:42:25.525Z nicer   🔛  Found boundary, data size 50B
+2019-07-16T12:42:25.525Z nicer   🗒  Found header and data of size <135B>
+2019-07-16T12:42:25.525Z nicer      Content-Disposition: form-data; name="file"; filename="test/fixture/test.txt"
+2019-07-16T12:42:25.525Z nicer      Content-Type: ap...
+2019-07-16T12:42:25.526Z nicer 🔎  Finished boundary scan, buffer of length 0B left, separators found: 1
+2019-07-16T12:42:25.526Z nicer one consume safe consumed 102B and left 0B
+2019-07-16T12:42:25.526Z nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan
+2019-07-16T12:42:25.526Z nicer 🔎  Finished boundary scan, buffer of length 4B left, separators found: 0
+2019-07-16T12:42:25.526Z nicer one consume safe consumed 0B and left 4B
+2019-07-16T12:42:25.528Z nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan
+2019-07-16T12:42:25.528Z nicer 🔎  Finished boundary scan, buffer of length 4B left, separators found: 0
+2019-07-16T12:42:25.528Z nicer one consume safe consumed 0B and left 4B
 ```
 </td></tr>
 <tr><td>After knowing what's left after the last found boundary, the <em>Nicer</em> parser takes only the safe amount of data to consume more which equals to the length of the boundary (including prior --), otherwise there might be a partial boundary leaking into the data stream. The remainder is saved as the new buffer, to which the following chunk in the transform method will be appended, and so on.</td></tr>

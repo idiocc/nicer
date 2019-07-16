@@ -89,12 +89,12 @@ const dicerTest = async function ({ startPlain, startTimer, collectLength, repor
 
 /** @type {Object<string, (c:Context, z:ServiceContext)} */
 const T = {
-  'sends 100mb of data with nicer (1)': nicerTest,
-  'sends 100mb of data with nicer (2)': nicerTest,
-  'sends 100mb of data with nicer-compiled': nicerTestCompiled,
-  'sends 100mb of data with nicer-compiled 2': nicerTestCompiled,
-  'sends 100mb of data with dicer (1)': dicerTest,
-  'sends 100mb of data with dicer (2)': dicerTest,
+  'sends 100mb of data with nicer (1)\n': nicerTest,
+  'sends 100mb of data with nicer (2)\n': nicerTest,
+  'sends 100mb of data with nicer-compiled\n': nicerTestCompiled,
+  'sends 100mb of data with nicer-compiled 2\n': nicerTestCompiled,
+  'sends 100mb of data with dicer (1)\n': dicerTest,
+  'sends 100mb of data with dicer (2)\n': dicerTest,
   // 'sends 100mb of data with dicer (2)': dicerTest,
   // 'sends 100mb of data with nicer (3)': nicerTest,
   // 'sends 100mb of data with dicer (3)': dicerTest,
