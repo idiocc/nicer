@@ -9,13 +9,18 @@ yarn add nicer
 ```
 
 <table>
-<tr><th><a href="benchmark/default.js">Benchmark</a></th></tr>
+<tr><th colspan="2"><a href="benchmark/default.js">Benchmark</a></th></tr>
 <!-- block-start -->
 <tr><td>
 
-%_FORK node_modules/.bin/zoroaster benchmark/default.js -a -t 100000 -s benchmark/snapshot -r benchmark/default%
-</td></tr>
-<tr><td><md2html>
+%_FORK-java node_modules/.bin/zoroaster benchmark/default.js -a -t 100000 -s benchmark/snapshot -r benchmark/default%
+</td>
+<td>
+
+%_FORKERR-java node_modules/.bin/zoroaster benchmark/default.js -a -t 100000 -s benchmark/snapshot -r benchmark/default%
+</td>
+</tr>
+<tr><td colspan="2"><md2html>
 
 <a href="https://github.com/idiocc/nicer">_Nicer_</a> is comparable to the faster streaming parser, <a href="https://github.com/idiocc/dicer">_Dicer_</a> since the real-world data (uploading 2 fields, 2 text files and 50 photos) is processed at speeds of 46 and 60 Mb/s.
 </md2html></td></tr>
