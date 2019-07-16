@@ -3,7 +3,7 @@
 The errors are spawned when the buffer remaining the stream after the `final` event, and processed to extract the rest of the fields, still contains symbols different from <kbd>-</kbd><kbd>-</kbd> (`[45,45]`).
 
 <table>
-<tr><th><a href="example/extra-buffer.js">Extra Buffer (Tail) Error</a></th></tr>
+<tr><th>[Extra Buffer](t) <a href="example/extra-buffer.js">(<em>Source</em>)</a></th></tr>
 <!-- block-start -->
 <tr><td>
 

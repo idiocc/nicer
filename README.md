@@ -36,6 +36,7 @@ Processed 105.38MB at 46.69mb/s
   * [`_nicer.Nicer`](#type-_nicernicer)
   * [`_nicer.NicerPart`](#type-_nicernicerpart)
 - [Errors](#errors)
+  * [Extra Buffer](#extra-buffer)
 - [Copyright](#copyright)
 
 <p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/1.svg?sanitize=true"></a></p>
@@ -144,7 +145,7 @@ Content-Type: application/octet-stream
 The errors are spawned when the buffer remaining the stream after the `final` event, and processed to extract the rest of the fields, still contains symbols different from <kbd>-</kbd><kbd>-</kbd> (`[45,45]`).
 
 <table>
-<tr><th><a href="example/extra-buffer.js">Extra Buffer (Tail) Error</a></th></tr>
+<tr><th><a name="extra-buffer">Extra Buffer</a> <a href="example/extra-buffer.js">(<em>Source</em>)</a></th></tr>
 <tr><td>
 
 ```http
