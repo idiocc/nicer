@@ -14,22 +14,16 @@ yarn add nicer
 
 ```java
 benchmark/default.js
-Processed 105.38MB at 48.10mb/s
   ✓  sends 100mb of data with nicer (1)
 
-Processed 105.38MB at 52.01mb/s
   ✓  sends 100mb of data with nicer (2)
 
-Processed 105.38MB at 54.46mb/s
   ✓  sends 100mb of data with nicer-compiled
 
-Processed 105.38MB at 57.21mb/s
   ✓  sends 100mb of data with nicer-compiled 2
 
-Processed 105.38MB at 71.93mb/s
   ✓  sends 100mb of data with dicer (1)
 
-Processed 105.38MB at 57.52mb/s
   ✓  sends 100mb of data with dicer (2)
 
 
@@ -39,7 +33,12 @@ Processed 105.38MB at 57.52mb/s
 <td>
 
 ```java
-
+Processed 105.38MB at 48.01mb/s
+Processed 105.38MB at 50.01mb/s
+Processed 105.38MB at 56.32mb/s
+Processed 105.38MB at 56.78mb/s
+Processed 105.38MB at 69.65mb/s
+Processed 105.38MB at 72.47mb/s
 ```
 </td>
 </tr>
