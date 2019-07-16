@@ -1,4 +1,4 @@
-import { PassThrough, Transform, Readable } from 'stream'
+import { PassThrough, Transform } from 'stream'
 import Debug from '@idio/debug'
 import { format } from '../benchmark/bytes'
 import { c as C, b as B } from 'erte'
@@ -260,8 +260,8 @@ export default class Nicer extends Transform {
 
     const isEnd = checkIsEnd(this.buffer)
     if (!isEnd) {
-      const [a, b] = this.buffer
-      const e = new Error(`Unexpected end of request body, wanted to see "--" but saw ${a}${b}.`)
+      let b = this.buffer.slice(0, 2).toString()
+      const e = new Error(`Unexpected end of request body, wanted to see "--" but saw ${b}.`)
       cb(e)
       this.push(e)
     } else {

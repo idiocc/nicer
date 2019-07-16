@@ -52,7 +52,7 @@
         "ALAMODE_ENV": "test-depack",
       },
       "args": [
-        "example"
+        "example/extra-buffer"
       ],
       "skipFiles": [
         "<node_internals>/**/*.js"

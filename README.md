@@ -14,9 +14,9 @@ yarn add nicer
 
 ```
 benchmark/default.js
-Processed 105.38MB at 46.92mb/s
+Processed 105.38MB at 26.99mb/s
   ✓  sends 100mb of data with nicer
-Processed 105.38MB at 60.15mb/s
+Processed 105.38MB at 46.69mb/s
   ✓  sends 100mb of data with dicer
 
 🦅  Executed 2 tests.
@@ -35,6 +35,7 @@ Processed 105.38MB at 60.15mb/s
 - [`constructor(boundary: string): Nicer`](#constructorboundary-string-nicer)
   * [`_nicer.Nicer`](#type-_nicernicer)
   * [`_nicer.NicerPart`](#type-_nicernicerpart)
+- [Errors](#errors)
 - [Copyright](#copyright)
 
 <p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/1.svg?sanitize=true"></a></p>
@@ -137,6 +138,38 @@ Content-Type: application/octet-stream
 
 
 <p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/3.svg?sanitize=true"></a></p>
+
+## Errors
+
+The errors are spawned when the buffer remaining the stream after the `final` event, and processed to extract the rest of the fields, still contains symbols different from <kbd>-</kbd><kbd>-</kbd> (`[45,45]`).
+
+<table>
+<tr><th><a href="example/extra-buffer.js">Extra Buffer (Tail) Error</a></th></tr>
+<tr><td>
+
+```http
+-------example
+Content-Disposition: form-data; name="key"
+
+data
+-------exampleWAT
+```
+</td></tr>
+<tr><td>The data remaining after the last boundary detected after the <em>final</em> method is called does not have any meaning and is discarded. This is not the case with parts that arrived before the stream was closed, i.e., the file limit is not implemented.</td></tr>
+<tr><td>
+
+```fs
+Boundary detected: -----example
+[!] Error Unexpected end of request body, wanted to see "--" but saw WA.
+    Detected Data:
+
+Content-Disposition: form-data; name="key"
+====
+ [ 'data' ]
+```
+</td></tr>
+<tr><td>The parser will always check for the closing <code>--</code> and emit an error in the end, however the headers and data streams emitted by it, would have been all closed, i.e., the data can still be used.</td></tr>
+</table>
 
 ## Copyright
 
