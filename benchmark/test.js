@@ -1,69 +1,75 @@
 import Nicer from '../src'
-import Http from '@contexts/http'
+import Dicer from '@idio/dicer'
+import Context from '../test/context'
 import { collect } from 'catchment'
 
-const http = new Http()
-let startTime
-let l = 0
+/** @type {Object<string, (c:Context)} */
+export const bench = {
+  context: Context,
+  async 'sends 100mb of data with nicer'({ startPlain, startTimer, collectLength, reportEnd }) {
+    await startPlain(async (req, res) => {
+      const boundary = Context.getBoundary(req, res)
+      if (!boundary) return
 
-;(async () => {
-  await http.startPlain(async (req, res) => {
-    const boundary = getBoundary(req, res)
-    if (!boundary) return
+      startTimer()
 
-    startTime = +new Date
+      const nicer = new Nicer({ boundary })
 
-    const nicer = new Nicer({ boundary })
+      collectLength(req)
+      req.pipe(nicer)
 
-    req.on('data', ({ length }) => {
-      l += length
+      const s = []
+      nicer.on('data', ({ header, stream }) => {
+        // console.log(`${header}`)
+        s.push(collect(stream))
+      })
+      nicer.on('end', async () => {
+        reportEnd()
+
+        const data = await Promise.all(s)
+        res.setHeader('content-type', 'application/json')
+        res.end(JSON.stringify(data.map(f => f.length)))
+      })
     })
-    req.pipe(nicer)
-    const s = []
-    nicer.on('data', ({ header, stream }) => {
-      // console.log(`${header}`)
-      s.push(collect(stream))
+      .postForm('/', postForm)
+      .assert(200)
+  },
+  async 'sends 100mb of data with dicer'({ startPlain, startTimer, collectLength, reportEnd }) {
+    await startPlain(async (req, res) => {
+      const boundary = Context.getBoundary(req, res)
+      if (!boundary) return
+
+      startTimer()
+
+      const nicer = new Nicer({ boundary })
+
+      collectLength(req)
+      req.pipe(nicer)
+
+      const s = []
+      nicer.on('data', ({ header, stream }) => {
+        // console.log(`${header}`)
+        s.push(collect(stream))
+      })
+      nicer.on('end', async () => {
+        reportEnd()
+
+        const data = await Promise.all(s)
+        res.setHeader('content-type', 'application/json')
+        res.end(JSON.stringify(data.map(f => f.length)))
+      })
     })
-    nicer.on('end', async () => {
-      const duration = +new Date - startTime
-      const totalSize = l/1024/1024
-      const mbPerSec = (totalSize / (duration / 1000)).toFixed(2)
-      console.log(mbPerSec)
+      .postForm('/', postForm)
+      .assert(200)
+  },
+}
 
-      const data = await Promise.all(s)
-      res.setHeader('content-type', 'application/json')
-      res.end(JSON.stringify(data.map(f => f.length)))
-    })
-  })
-    .postForm('/', async (form) => {
-      form.addSection('hello', 'world')
-      form.addSection('test', 'data')
-      await form.addFile(`benchmark/dracula.txt`, 'file')
-      await Promise.all(Array.from({ length: 50 }).map(async () => {
-        await form.addFile(`benchmark/img.JPG`, 'photo')
-      }))
-      await form.addFile(`benchmark/dracula.txt`, 'file')
-    })
-    .assert(200)
-
-
-  await http._destroy()
-})()
-
-function getBoundary(req, res) {
-  const contentType = req.headers['content-type']
-  if (!contentType) {
-    res.status = 500
-    res.end('content-type not found')
-    return
-  }
-  let boundary = /; boundary=(.+)/.exec(contentType)
-  if (!boundary) {
-    res.status = 500
-    res.end('boundary not found')
-    return
-  }
-
-  ([, boundary] = boundary)
-  return boundary
+const postForm = async (form) => {
+  form.addSection('hello', 'world')
+  form.addSection('test', 'data')
+  await form.addFile(`benchmark/dracula.txt`, 'file')
+  await Promise.all(Array.from({ length: 50 }).map(async () => {
+    await form.addFile(`benchmark/img.JPG`, 'photo')
+  }))
+  await form.addFile(`benchmark/dracula.txt`, 'file')
 }

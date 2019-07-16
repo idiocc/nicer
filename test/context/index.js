@@ -20,7 +20,11 @@ export default class Context extends Http {
     const f = file.raw[0]
     return join('test/fixture', f)
   }
-  getBoundary(req, res) {
+  /**
+   * @param {http.IncomingMessage} req
+   * @param {http.ServerResponse} res
+   */
+  static getBoundary(req, res) {
     const contentType = req.headers['content-type']
     if (!contentType) {
       res.status = 500
@@ -36,6 +40,28 @@ export default class Context extends Http {
 
     ([, boundary] = boundary)
     return boundary
+  }
+  get getBoundary() {
+    return Context.getBoundary
+  }
+  startTimer() {
+    this.start = +new Date
+  }
+  stopTimer() {
+    return +new Date - this.start
+  }
+  collectLength(req) {
+    this.l = 0
+    req.on('data', ({ length }) => {
+      this.l += length
+    })
+  }
+  reportEnd() {
+    const duration = this.stopTimer()
+    const totalSize = this.l/1024/1024
+    const mb = format(this.l)
+    const mbPerSec = (totalSize / (duration / 1000)).toFixed(2)
+    console.log('Processed %s at %s' , mb, mbPerSec)
   }
 }
 
@@ -88,3 +114,9 @@ export class BufferTransform extends Duplex {
     cb()
   }
 }
+
+/**
+ * @suppress {nonStandardJsDocs}
+ * @typedef {import('http').IncomingMessage} http.IncomingMessage
+ * @typedef {import('http').ServerResponse} http.ServerResponse
+ */
