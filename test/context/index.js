@@ -61,7 +61,7 @@ export default class Context extends Http {
     const totalSize = this.l/1024/1024
     const mb = format(this.l)
     const mbPerSec = (totalSize / (duration / 1000)).toFixed(2)
-    console.log('Processed %s at %s' , mb, mbPerSec)
+    console.log('Processed %s at %smb/s' , mb, mbPerSec)
   }
 }
 
