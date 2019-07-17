@@ -8,10 +8,10 @@
     </prop>
   </type>
   <type record name="NicerPart" desc="A part that gets emitted by _Nicer_.">
-    <prop type="stream.PassThrough" name="stream">
+    <prop type="!stream.PassThrough" name="stream">
       The mandatory field separator.
     </prop>
-    <prop type="Buffer" name="header">
+    <prop type="!Buffer" name="header">
       The header found before data.
     </prop>
   </type>

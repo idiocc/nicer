@@ -17,12 +17,12 @@ _nicer.Nicer
 _nicer.NicerPart
 /**
  * The mandatory field separator.
- * @type {stream.PassThrough}
+ * @type {!stream.PassThrough}
  */
 _nicer.NicerPart.prototype.stream
 /**
  * The header found before data.
- * @type {Buffer}
+ * @type {!Buffer}
  */
 _nicer.NicerPart.prototype.header
 

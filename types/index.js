@@ -16,8 +16,8 @@ export {}
  */
 /**
  * @typedef {Object} _nicer.NicerPart `＠record` A part that gets emitted by _Nicer_.
- * @prop {stream.PassThrough} stream The mandatory field separator.
- * @prop {Buffer} header The header found before data.
+ * @prop {!stream.PassThrough} stream The mandatory field separator.
+ * @prop {!Buffer} header The header found before data.
  */
 /**
  * @typedef {import('stream').PassThrough} stream.PassThrough

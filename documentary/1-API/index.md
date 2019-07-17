@@ -29,7 +29,7 @@ Creates a transform that emits objects with a header buffer and the body stream.
 <!-- block-start -->
 <tr><td>
 
-%EXAMPLE: example, ../src => nicer%
+%EXAMPLE: example, .. => nicer%
 </td></tr>
 <tr><td><md2html>
 A new instance of _Nicer_ can be piped into by an _http.IncomingMessage_ stream in the Node.JS server. Then a transform stream must be created to listen for the data emitted by _Nicer_ in object mode.
