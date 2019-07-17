@@ -9,15 +9,15 @@ yarn add nicer
 ```
 
 <table>
-<tr><th colspan="2"><a href="benchmark/default.js">Benchmark</a></th></tr>
+<tr><th colspan="2"><a href="benchmark/default">Benchmark</a></th></tr>
 <tr><td colspan="2">
 
 |  Library   |     1     |     2     |     3     |
 | ---------- | --------- | --------- | --------- |
-| nicer      | 61.30mb/s | 84.78mb/s | 84.91mb/s |
-| dicer      | 82.65mb/s | 48.83mb/s | 55.43mb/s |
-| multiparty | 20.87mb/s | 19.88mb/s | 27.06mb/s |
-| nicerc     | 58.61mb/s | 47.79mb/s | 64.89mb/s |
+| dicer      | 79.95mb/s | 91.79mb/s | 92.93mb/s |
+| multiparty | 25.56mb/s | 28.78mb/s | 28.79mb/s |
+| nicer      | 67.25mb/s | 72.23mb/s | 72.03mb/s |
+| nicerc     | 68.83mb/s | 79.95mb/s | 78.82mb/s |
 </td>
 </tr>
 <tr><td colspan="2"><a href="https://github.com/idiocc/nicer"><em>Nicer</em></a> is comparable to the faster streaming parser, <a href="https://github.com/idiocc/dicer"><em>Dicer</em></a> since the real-world data (uploading 2 fields, 2 text files and 50 photos) is processed at speeds that are close. In the benchmark, <code>nicer</code> is the source code of this package, whereas <code>nicerc</code> is the <a href="https://compiler.page">compiled JavaScript</a> optimised Closure Compiler, which probably increases the speed by 5-10%.</td></tr>
@@ -208,24 +208,24 @@ await http.startPlain((req, res) => {
 ```sh
 nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
   nicer 🔎  Finished boundary scan, buffer of length 50B left, separators found: 0 +2ms
-  nicer one consume safe consumed 0B and left 50B +0ms
+  nicer one consume safe consumed 0B and left 50B +1ms
   nicer <concat-transform> +1ms
   nicer <concat-transform> 100B +0ms
   nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
   nicer   ⭐  Found starting boundary at index 2 +0ms
-  nicer 🔎  Finished boundary scan, buffer of length 48B left, separators found: 1 +1ms
-  nicer one consume safe consumed 52B and left 48B +0ms
+  nicer 🔎  Finished boundary scan, buffer of length 48B left, separators found: 1 +0ms
+  nicer one consume safe consumed 52B and left 48B +1ms
   nicer <concat-transform> +0ms
   nicer <concat-transform> 98B +0ms
   nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
-  nicer 🔎  Finished boundary scan, buffer of length 98B left, separators found: 0 +1ms
+  nicer 🔎  Finished boundary scan, buffer of length 98B left, separators found: 0 +0ms
   nicer one consume safe consumed 46B and left 52B +0ms
   nicer <concat-transform> +0ms
   nicer <concat-transform> 102B +0ms
   nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
   nicer   🔛  Found boundary, data size 7B +0ms
-  nicer   🗒  Found header and data of size <53B> +0ms
-  nicer      Content-Disposition: form-data; name="key" +1ms
+  nicer   🗒  Found header and data of size <53B> +1ms
+  nicer      Content-Disposition: form-data; name="key" +0ms
   nicer      value +0ms
   nicer 🔎  Finished boundary scan, buffer of length 43B left, separators found: 1 +2ms
   nicer one consume safe consumed 59B and left 43B +0ms
@@ -234,27 +234,27 @@ nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
   nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
   nicer 🔎  Finished boundary scan, buffer of length 93B left, separators found: 0 +0ms
   nicer one consume safe consumed 41B and left 52B +0ms
-  nicer <concat-transform> +8ms
+  nicer <concat-transform> +1ms
   nicer <concat-transform> 102B +0ms
   nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
-  nicer   🔛  Found boundary, data size 13B +1ms
+  nicer   🔛  Found boundary, data size 13B +0ms
   nicer   🗒  Found header and data of size <54B> +0ms
   nicer      Content-Disposition: form-data; name="alan" +0ms
   nicer      watts +0ms
-  nicer 🔎  Finished boundary scan, buffer of length 37B left, separators found: 1 +1ms
-  nicer one consume safe consumed 65B and left 37B +0ms
+  nicer 🔎  Finished boundary scan, buffer of length 37B left, separators found: 1 +0ms
+  nicer one consume safe consumed 65B and left 37B +1ms
   nicer <concat-transform> +0ms
   nicer <concat-transform> 87B +0ms
-  nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +1ms
+  nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
   nicer 🔎  Finished boundary scan, buffer of length 87B left, separators found: 0 +0ms
   nicer one consume safe consumed 35B and left 52B +0ms
   nicer <concat-transform> +0ms
-  nicer <concat-transform> 102B +1ms
-  nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
+  nicer <concat-transform> 102B +0ms
+  nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +11ms
   nicer 🔎  Finished boundary scan, buffer of length 102B left, separators found: 0 +0ms
   nicer       <concat-header> +0ms
-  nicer       <concat-header> 85B +0ms
-  nicer one consume safe consumed 50B and left 52B +1ms
+  nicer       <concat-header> 85B +1ms
+  nicer one consume safe consumed 50B and left 52B +0ms
   nicer <concat-transform> +0ms
   nicer <concat-transform> 102B +0ms
   nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +1ms
@@ -266,9 +266,9 @@ nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
   nicer one consume safe consumed 102B and left 0B +0ms
   nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
   nicer 🔎  Finished boundary scan, buffer of length 4B left, separators found: 0 +0ms
-  nicer one consume safe consumed 0B and left 4B +1ms
+  nicer one consume safe consumed 0B and left 4B +0ms
   nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +2ms
-  nicer 🔎  Finished boundary scan, buffer of length 4B left, separators found: 0 +0ms
+  nicer 🔎  Finished boundary scan, buffer of length 4B left, separators found: 0 +1ms
   nicer one consume safe consumed 0B and left 4B +0ms
 ```
 </td></tr>

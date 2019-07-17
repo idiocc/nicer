@@ -9,11 +9,11 @@ yarn add nicer
 ```
 
 <table>
-<tr><th colspan="2"><a href="benchmark/default.js">Benchmark</a></th></tr>
+<tr><th colspan="2"><a href="benchmark/default">Benchmark</a></th></tr>
 <!-- block-start -->
 <tr><td colspan="2">
 
-%_FORKERR-table node_modules/.bin/zoroaster benchmark/default.js -a -t 100000 -s benchmark/snapshot -r benchmark/default%
+%_FORKERR-table node_modules/.bin/zoroaster benchmark/default -a -t 100000 -s benchmark/snapshot -r benchmark/default%
 </td>
 </tr>
 <tr><td colspan="2"><md2html>
