@@ -1,3 +1,4 @@
+import '../types/externs'
 import Nicer from './'
 
-DEPACK_EXPORT = { '_Nicer': Nicer }
+module.exports = Nicer

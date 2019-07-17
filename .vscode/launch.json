@@ -55,7 +55,7 @@
         "ALAMODE_ENV": "test-depack",
       },
       "args": [
-        "example/debug"
+        "example"
       ],
       "skipFiles": [
         "<node_internals>/**/*.js"

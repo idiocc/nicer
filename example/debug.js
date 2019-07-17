@@ -1,4 +1,4 @@
-/* alanode example/ */
+process.env.DEBUG_COLOR = '1'
 process.env.DEBUG = process.env.DEBUG ? `${process.env.DEBUG},nicer` : 'nicer'
 
 import Http from '@contexts/http'
@@ -39,30 +39,6 @@ await http.startPlain((req, res) => {
       await form.addFile('test/fixture/test.txt', 'file')
       // await form.addFile('test/fixture/cat.JPG', 'the-cat')
     }).assert(200)
-    .assert(() => {
-      // debugger
-      // const de = detected.map((_d) => {
-      //   let d = /** @type {!Array<?>} */ _d
-      //   if (Array.isArray(d[2])) {
-      //     d[2] = d[2].map(db => {
-      //       if (db instanceof Buffer) {
-      //         return db.toString()
-      //       } return db
-      //     })
-      //     return d
-      //   } else return _d
-      // })
-
-      // de.forEach((a) => {
-      //   console.log(...a, '\n')
-      // })
-      // console.log(...de)
-    })
-
-  // const res = await nicer({
-  //   text: 'example',
-  // })
-  // console.log(res)
 }
 
 ;(async () => {

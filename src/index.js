@@ -34,7 +34,7 @@ const concatBuffer = (a, b, comment='', z=0) => {
   if (comment) comment = `-${comment}`
   debug('%s<concat%s>', x, comment)
   const res = Buffer.concat([a, b])
-  debug('%s<concat%s> %s', x, comment, format(res.length))
+  debug('%s<concat%s> %f', x, comment, res.length)
   return res
 }
 
@@ -98,7 +98,7 @@ export default class Nicer extends Transform {
   writeBody(data) {
     this.bodyWritten += data.length
     this.bodyStream.write(data)
-    debug('    📝  Wrote %s to body', format(data.length))
+    debug('    📝  Wrote %f to body', data.length)
   }
   _transform(chunk, enc, next) {
     // console.log('RECEIVED %s', chunk.length)
@@ -128,7 +128,7 @@ export default class Nicer extends Transform {
     const rest = this.consumeSafe(buffer)
     const howmuchconsumed = buffer.length - rest.length
     const left = howmuchconsumed ? this.buffer.slice(howmuchconsumed) : this.buffer
-    debug('one consume safe consumed %s and left %s', format(howmuchconsumed), format(left.length))
+    debug('one consume safe consumed %f and left %f', howmuchconsumed, left.length)
     return left
   }
   get boundary() {
@@ -142,7 +142,7 @@ export default class Nicer extends Transform {
     if (!this.bodyStream) return
 
     if (data && data.length) this.writeBody(data)
-    debug('    🔒  Closing current data stream, total written: %s', format(this.bodyWritten))
+    debug('    🔒  Closing current data stream, total written: %f', this.bodyWritten)
     this.bodyStream.push(null)
     this.bodyStream = null
     this.bodyWritten = 0
@@ -173,7 +173,7 @@ export default class Nicer extends Transform {
         this.state = 'reading_header'
         continue
       }
-      debug('  🔛  Found boundary, data size %s', C(/** @type {string} */ (format(data.length)), 'magenta'))
+      debug('  🔛  Found boundary, data size %fm', data.length)
       // what if state is reading body
       if (this.state == 'reading_body') {
         this.finishCurrentStream(data)
@@ -181,7 +181,7 @@ export default class Nicer extends Transform {
       } else if (this.state == 'reading_header' && this.header.length) {
         // headerToConsume = data
         const header = Buffer.concat([this.header, data])
-        debug(`  🗒  Found header and data of size <%s>`, C(format(header.length) || '', 'yellow'))
+        debug(`  🗒  Found header and data of size <%fy>`, header.length)
         debugHeader(header, 3)
         toConsume.push(header)
         this.resetHeader()
@@ -216,8 +216,8 @@ export default class Nicer extends Transform {
     // OR HANDLE IT HERE
     // -- END
     // -- PUSH TO THE BODY or HEADER
-    debug('🔎  Finished boundary scan, buffer of length %s left, separators found: %s',
-      format(buffer.length), foundSeparator)
+    debug('🔎  Finished boundary scan, buffer of length %f left, separators found: %s',
+      buffer.length, foundSeparator)
 
     if (this.state == 'finished_body' && checkIsEnd(buffer)) {
       debug('〰️  Special case, found %s after the boundary', C('--', 'red'))

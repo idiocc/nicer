@@ -1,4 +1,4 @@
-const { _Nicer } = require('./depack')
+const _Nicer = require('./nicer')
 
 class Nicer extends _Nicer {
   /**

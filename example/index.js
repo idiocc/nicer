@@ -44,7 +44,6 @@ await http.startPlain((req, res) => {
       // await form.addFile('test/fixture/cat.JPG', 'the-cat')
     }).assert(200)
     .assert(() => {
-      debugger
       const de = detected.map((_d) => {
         let d = /** @type {!Array<?>} */ _d
         if (Array.isArray(d[2])) {

@@ -1,3 +1,7 @@
+/**
+ * @fileoverview The program externs.
+ * @externs
+ */
 /* typal types/index.xml externs */
 /** @const */
 var _nicer = {}
