@@ -13,7 +13,7 @@
     "test-build": "ALAMODE_ENV=test-build yarn test",
     "test-compile": "ALAMODE_ENV=test-compiler yarn test",
     "lint": "eslint .",
-    "doc": "NODE_DEBUG=doc doc -o README.md",
+    "doc": "NODE_DEBUG=doc doc -o README.md -n _nicer",
     "b": "alamode src -o build -s",
     "be": "DEBUG=nicerb zoroaster benchmark/default.js -a -t 100000 -s benchmark/snapshot -r benchmark/default",
     "d": "yarn-s d1 externs",

@@ -12,10 +12,10 @@ export {}
  * @prop {string} boundary The mandatory field separator.
  */
 /**
- * @typedef {_nicer.NicerPart} NicerPart `＠record` A part that gets emitted by _Nicer_.
+ * @typedef {_nicer.Part} Part `＠record` A part that gets emitted by _Nicer_.
  */
 /**
- * @typedef {Object} _nicer.NicerPart `＠record` A part that gets emitted by _Nicer_.
+ * @typedef {Object} _nicer.Part `＠record` A part that gets emitted by _Nicer_.
  * @prop {!stream.PassThrough} stream The mandatory field separator.
  * @prop {!Buffer} header The header found before data.
  */

@@ -7,7 +7,7 @@
       The mandatory field separator.
     </prop>
   </type>
-  <type record name="NicerPart" desc="A part that gets emitted by _Nicer_.">
+  <type record name="Part" desc="A part that gets emitted by _Nicer_.">
     <prop type="!stream.PassThrough" name="stream">
       The mandatory field separator.
     </prop>

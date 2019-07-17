@@ -9,7 +9,16 @@ import ServiceContext from 'zoroaster'
 
 const debug = Debug('nicerb')
 
-const context = [Context, ServiceContext]
+let i = 0
+const context = [Context, ServiceContext, class {
+  _destroy() {
+    i++
+    if (i == 3) {
+      console.error('\u200B')
+      i = 0
+    }
+  }
+}]
 
 const nicerTest = async function (_, { startPlain, startTimer, collectLength, reportEnd }, { snapshotSource }) {
   snapshotSource('sends 100mb of data with nicer')
@@ -105,13 +114,18 @@ const stderr = class {
 /** @type {Object<string, (c:Context, z:ServiceContext)} */
 const T = {
   persistentContext: stderr,
-  context: context,
-  'sends 100mb of data with nicer (1)': nicerTest,
-  'sends 100mb of data with nicer (2)': nicerTest,
-  'sends 100mb of data with nicer-compiled': nicerTestCompiled,
-  'sends 100mb of data with nicer-compiled 2': nicerTestCompiled,
-  'sends 100mb of data with dicer (1)': dicerTest,
+  context,
+  'sends 100mb of data with nicer': nicerTest,
+  'sends 100mb of data with Nicer': nicerTestCompiled,
+  'sends 100mb of data with dicer\n': dicerTest,
+
   'sends 100mb of data with dicer (2)': dicerTest,
+  'sends 100mb of data with nicer (2)': nicerTest,
+  'sends 100mb of data with Nicer (2)\n': nicerTestCompiled,
+
+  'sends 100mb of data with Nicer (3)': nicerTestCompiled,
+  'sends 100mb of data with dicer (3)': dicerTest,
+  'sends 100mb of data with nicer (3)': nicerTest,
   // 'sends 100mb of data with dicer (2)': dicerTest,
   // 'sends 100mb of data with nicer (3)': nicerTest,
   // 'sends 100mb of data with dicer (3)': dicerTest,

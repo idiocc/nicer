@@ -22,7 +22,7 @@ yarn add nicer
 </tr>
 <tr><td colspan="2"><md2html>
 
-<a href="https://github.com/idiocc/nicer">_Nicer_</a> is comparable to the faster streaming parser, <a href="https://github.com/idiocc/dicer">_Dicer_</a> since the real-world data (uploading 2 fields, 2 text files and 50 photos) is processed at speeds of 46 and 60 Mb/s.
+<a href="https://github.com/idiocc/nicer">_Nicer_</a> is comparable to the faster streaming parser, <a href="https://github.com/idiocc/dicer">_Dicer_</a> since the real-world data (uploading 2 fields, 2 text files and 50 photos) is processed at speeds that are close. In the benchmark, `nicer` is the source code of this package, whereas _Nicer_ is the <a href="https://compiler.page">optimised JavaScript</a> version compiled with Closure Compiler, which increases the speed by about 10%.
 </md2html></td></tr>
 <!-- /block-end -->
 </table>

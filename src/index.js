@@ -86,7 +86,7 @@ export default class Nicer extends Transform {
       // })
       // this.bodyWritten = 0
       this.resetHeader()
-      /** @type {_nicer.NicerPart} */
+      /** @type {_nicer.Part} */
       const d = { header, stream: this.bodyStream }
       this.push(d)
       this.writeBody(newData)
@@ -286,3 +286,8 @@ const debugHeader = (header, i = 5) => {
     debug('%s%s', ' '.repeat(i +2), C(B(`${l}`, 'blue'), 'cyan'))
   })
 }
+
+/**
+ * @suppress {nonStandardJsDocs}
+ * @typedef {import('../types').Part} _nicer.Part
+ */

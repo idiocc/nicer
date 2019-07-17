@@ -14,17 +14,17 @@ _nicer.Nicer
  * A part that gets emitted by _Nicer_.
  * @record
  */
-_nicer.NicerPart
+_nicer.Part
 /**
  * The mandatory field separator.
  * @type {!stream.PassThrough}
  */
-_nicer.NicerPart.prototype.stream
+_nicer.Part.prototype.stream
 /**
  * The header found before data.
  * @type {!Buffer}
  */
-_nicer.NicerPart.prototype.header
+_nicer.Part.prototype.header
 
 /** @type {string} */
 process.env.DEBUG

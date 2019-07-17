@@ -14,7 +14,7 @@ import Nicer from 'nicer'
 ]
 ```
 
-Creates a transform that emits objects with a header buffer and the body stream. The body stream is a pass-through so all data must be written as it comes, the request doesn't pause for data to be consumed. The header is a buffer which can be parsed more and/or decrypted, but it does not stream. The assumption is the headers are short therefore a header buffer is accumulated until `\r\n` is found. Just make sure to run behind NginX then it should be alright.
+Creates a transform that emits objects with a header buffer and the body stream. The body stream is a pass-through so all data must be written as it comes, the request doesn't pause for data to be consumed. The header is a buffer which can be parsed more and/or decrypted, but it does not stream. The assumption is the headers are short therefore a header buffer is accumulated until `\r\n` is found. Just make sure to run behind _NginX_ then it should be alright.
 
 <!-- [**TODO**]:  -->
 
@@ -33,7 +33,7 @@ A new instance of _Nicer_ can be piped into by an _http.IncomingMessage_ stream 
 
 </md2html>
 
-%TYPEDEF types/index.xml NicerPart%
+%TYPEDEF types/index.xml Part%
 
 </td></tr>
 <!-- /block-end -->

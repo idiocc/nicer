@@ -14,32 +14,43 @@ yarn add nicer
 
 ```java
 benchmark/default.js
-  ✓  sends 100mb of data with nicer (1)
-  ✓  sends 100mb of data with nicer (2)
-  ✓  sends 100mb of data with nicer-compiled
-  ✓  sends 100mb of data with nicer-compiled 2
-  ✓  sends 100mb of data with dicer (1)
-  ✓  sends 100mb of data with dicer (2)
+  ✓  sends 100mb of data with nicer
+  ✓  sends 100mb of data with Nicer
+  ✓  sends 100mb of data with dicer
 
-🦅  Executed 6 tests.
+  ✓  sends 100mb of data with dicer (2)
+  ✓  sends 100mb of data with nicer (2)
+  ✓  sends 100mb of data with Nicer (2)
+
+  ✓  sends 100mb of data with Nicer (3)
+  ✓  sends 100mb of data with dicer (3)
+  ✓  sends 100mb of data with nicer (3)
+
+🦅  Executed 9 tests.
 ```
 </td>
 <td>
 
 ```java
 ​
-Processed 105.38MB at 73.74mb/s
-Processed 105.38MB at 85.12mb/s
-Processed 105.38MB at 92.76mb/s
-Processed 105.38MB at 95.62mb/s
-Processed 105.38MB at 104.23mb/s
-Processed 105.38MB at 115.17mb/s
+Processed 105.38MB at 70.91mb/s
+Processed 105.38MB at 77.20mb/s
+Processed 105.38MB at 95.97mb/s
+​
+Processed 105.38MB at 90.76mb/s
+Processed 105.38MB at 82.52mb/s
+Processed 105.38MB at 86.59mb/s
+​
+Processed 105.38MB at 93.59mb/s
+Processed 105.38MB at 103.21mb/s
+Processed 105.38MB at 88.70mb/s
+​
 ​
 ​
 ```
 </td>
 </tr>
-<tr><td colspan="2"><a href="https://github.com/idiocc/nicer"><em>Nicer</em></a> is comparable to the faster streaming parser, <a href="https://github.com/idiocc/dicer"><em>Dicer</em></a> since the real-world data (uploading 2 fields, 2 text files and 50 photos) is processed at speeds of 46 and 60 Mb/s.</td></tr>
+<tr><td colspan="2"><a href="https://github.com/idiocc/nicer"><em>Nicer</em></a> is comparable to the faster streaming parser, <a href="https://github.com/idiocc/dicer"><em>Dicer</em></a> since the real-world data (uploading 2 fields, 2 text files and 50 photos) is processed at speeds that are close. In the benchmark, <code>nicer</code> is the source code of this package, whereas <em>Nicer</em> is the <a href="https://compiler.page">optimised JavaScript</a> version compiled with Closure Compiler, which increases the speed by about 10%.</td></tr>
 </table>
 
 
@@ -50,8 +61,8 @@ Processed 105.38MB at 115.17mb/s
 - [Table Of Contents](#table-of-contents)
 - [API](#api)
 - [`constructor(boundary: string): Nicer`](#constructorboundary-string-nicer)
-  * [`_nicer.Nicer`](#type-_nicernicer)
-  * [`_nicer.NicerPart`](#type-_nicernicerpart)
+  * [`Nicer`](#type-nicer)
+  * [`Part`](#type-part)
 - [Errors](#errors)
   * [Extra Buffer](#extra-buffer)
 - [Debug](#debug)
@@ -71,12 +82,12 @@ import Nicer from 'nicer'
 
 ## `constructor(`<br/>&nbsp;&nbsp;`boundary: string,`<br/>`): Nicer`
 
-Creates a transform that emits objects with a header buffer and the body stream. The body stream is a pass-through so all data must be written as it comes, the request doesn't pause for data to be consumed. The header is a buffer which can be parsed more and/or decrypted, but it does not stream. The assumption is the headers are short therefore a header buffer is accumulated until `\r\n` is found. Just make sure to run behind NginX then it should be alright.
+Creates a transform that emits objects with a header buffer and the body stream. The body stream is a pass-through so all data must be written as it comes, the request doesn't pause for data to be consumed. The header is a buffer which can be parsed more and/or decrypted, but it does not stream. The assumption is the headers are short therefore a header buffer is accumulated until `\r\n` is found. Just make sure to run behind _NginX_ then it should be alright.
 
 <table>
 <tr><th>
 
-__<a name="type-_nicernicer">`_nicer.Nicer`</a>__: A stream that emits objects with a header buffer and the body PassThrough stream.
+__<a name="type-nicer">`Nicer`</a>__: A stream that emits objects with a header buffer and the body PassThrough stream.
 
 |     Name      |      Type       |          Description           |
 | ------------- | --------------- | ------------------------------ |
@@ -118,7 +129,7 @@ await http.startPlain((req, res) => {
 </td></tr>
 <tr><td>A new instance of <em>Nicer</em> can be piped into by an <em>http.IncomingMessage</em> stream in the Node.JS server. Then a transform stream must be created to listen for the data emitted by <em>Nicer</em> in object mode.
 
-__<a name="type-_nicernicerpart">`_nicer.NicerPart`</a>__: A part that gets emitted by _Nicer_.
+__<a name="type-part">`Part`</a>__: A part that gets emitted by _Nicer_.
 
 |    Name     |             Type             |          Description           |
 | ----------- | ---------------------------- | ------------------------------ |
@@ -226,37 +237,37 @@ await http.startPlain((req, res) => {
 
 ```sh
 nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
-  nicer 🔎  Finished boundary scan, buffer of length 50B left, separators found: 0 +2ms
-  nicer one consume safe consumed 0B and left 50B +10ms
+  nicer 🔎  Finished boundary scan, buffer of length 50B left, separators found: 0 +1ms
+  nicer one consume safe consumed 0B and left 50B +0ms
   nicer <concat-transform> +1ms
   nicer <concat-transform> 100B +0ms
   nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
-  nicer   ⭐  Found starting boundary at index 2 +1ms
-  nicer 🔎  Finished boundary scan, buffer of length 48B left, separators found: 1 +0ms
+  nicer   ⭐  Found starting boundary at index 2 +0ms
+  nicer 🔎  Finished boundary scan, buffer of length 48B left, separators found: 1 +1ms
   nicer one consume safe consumed 52B and left 48B +0ms
   nicer <concat-transform> +0ms
   nicer <concat-transform> 98B +0ms
   nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
-  nicer 🔎  Finished boundary scan, buffer of length 98B left, separators found: 0 +0ms
-  nicer one consume safe consumed 46B and left 52B +1ms
+  nicer 🔎  Finished boundary scan, buffer of length 98B left, separators found: 0 +1ms
+  nicer one consume safe consumed 46B and left 52B +0ms
   nicer <concat-transform> +0ms
   nicer <concat-transform> 102B +0ms
   nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
   nicer   🔛  Found boundary, data size 7B +0ms
-  nicer   🗒  Found header and data of size <53B> +0ms
-  nicer      Content-Disposition: form-data; name="key" +1ms
+  nicer   🗒  Found header and data of size <53B> +1ms
+  nicer      Content-Disposition: form-data; name="key" +0ms
   nicer      value +0ms
-  nicer 🔎  Finished boundary scan, buffer of length 43B left, separators found: 1 +1ms
+  nicer 🔎  Finished boundary scan, buffer of length 43B left, separators found: 1 +5ms
   nicer one consume safe consumed 59B and left 43B +0ms
   nicer <concat-transform> +0ms
   nicer <concat-transform> 93B +0ms
-  nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
+  nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +1ms
   nicer 🔎  Finished boundary scan, buffer of length 93B left, separators found: 0 +1ms
-  nicer one consume safe consumed 41B and left 52B +0ms
+  nicer one consume safe consumed 41B and left 52B +1ms
   nicer <concat-transform> +0ms
   nicer <concat-transform> 102B +0ms
   nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
-  nicer   🔛  Found boundary, data size 13B +0ms
+  nicer   🔛  Found boundary, data size 13B +1ms
   nicer   🗒  Found header and data of size <54B> +0ms
   nicer      Content-Disposition: form-data; name="alan" +0ms
   nicer      watts +0ms
@@ -264,31 +275,31 @@ nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
   nicer one consume safe consumed 65B and left 37B +0ms
   nicer <concat-transform> +0ms
   nicer <concat-transform> 87B +0ms
-  nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
+  nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +1ms
   nicer 🔎  Finished boundary scan, buffer of length 87B left, separators found: 0 +0ms
   nicer one consume safe consumed 35B and left 52B +0ms
   nicer <concat-transform> +0ms
-  nicer <concat-transform> 102B +0ms
+  nicer <concat-transform> 102B +1ms
   nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
-  nicer 🔎  Finished boundary scan, buffer of length 102B left, separators found: 0 +1ms
+  nicer 🔎  Finished boundary scan, buffer of length 102B left, separators found: 0 +0ms
   nicer       <concat-header> +0ms
   nicer       <concat-header> 85B +0ms
   nicer one consume safe consumed 50B and left 52B +0ms
-  nicer <concat-transform> +0ms
-  nicer <concat-transform> 102B +1ms
+  nicer <concat-transform> +1ms
+  nicer <concat-transform> 102B +0ms
   nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
   nicer   🔛  Found boundary, data size 50B +0ms
   nicer   🗒  Found header and data of size <135B> +0ms
   nicer      Content-Disposition: form-data; name="file"; filename="test/fixture/test.txt" +0ms
-  nicer      Content-Type: ap... +0ms
+  nicer      Content-Type: ap... +1ms
   nicer 🔎  Finished boundary scan, buffer of length 0B left, separators found: 1 +0ms
   nicer one consume safe consumed 102B and left 0B +0ms
   nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
+  nicer 🔎  Finished boundary scan, buffer of length 4B left, separators found: 0 +0ms
+  nicer one consume safe consumed 0B and left 4B +0ms
+  nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +2ms
   nicer 🔎  Finished boundary scan, buffer of length 4B left, separators found: 0 +1ms
   nicer one consume safe consumed 0B and left 4B +0ms
-  nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +8ms
-  nicer 🔎  Finished boundary scan, buffer of length 4B left, separators found: 0 +0ms
-  nicer one consume safe consumed 0B and left 4B +1ms
 ```
 </td></tr>
 <tr><td>After knowing what's left after the last found boundary, the <em>Nicer</em> parser takes only the safe amount of data to consume more which equals to the length of the boundary (including prior --), otherwise there might be a partial boundary leaking into the data stream. The remainder is saved as the new buffer, to which the following chunk in the transform method will be appended, and so on.</td></tr>
