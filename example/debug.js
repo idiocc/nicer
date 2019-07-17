@@ -1,4 +1,4 @@
-process.env.DEBUG_COLOR = '1'
+process.env.DEBUG_COLORS = '1'
 process.env.DEBUG = process.env.DEBUG ? `${process.env.DEBUG},nicer` : 'nicer'
 
 import Http from '@contexts/http'
