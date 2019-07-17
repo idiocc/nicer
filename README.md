@@ -28,12 +28,12 @@ benchmark/default.js
 
 ```java
 ​
-Processed 105.38MB at 75.49mb/s
-Processed 105.38MB at 67.77mb/s
-Processed 105.38MB at 87.23mb/s
-Processed 105.38MB at 87.23mb/s
-Processed 105.38MB at 101.13mb/s
-Processed 105.38MB at 109.09mb/s
+Processed 105.38MB at 73.74mb/s
+Processed 105.38MB at 85.12mb/s
+Processed 105.38MB at 92.76mb/s
+Processed 105.38MB at 95.62mb/s
+Processed 105.38MB at 104.23mb/s
+Processed 105.38MB at 115.17mb/s
 ​
 ​
 ```
@@ -89,7 +89,7 @@ __<a name="type-_nicernicer">`_nicer.Nicer`</a>__: A stream that emits objects w
 
 ```js
 import { Transform } from 'stream'
-import Nicer from '..'
+import Nicer from 'nicer'
 
 const detected = []
 
@@ -123,10 +123,10 @@ await http.startPlain((req, res) => {
 
 __<a name="type-_nicernicerpart">`_nicer.NicerPart`</a>__: A part that gets emitted by _Nicer_.
 
-|    Name     |            Type             |          Description           |
-| ----------- | --------------------------- | ------------------------------ |
-| __stream*__ | <em>stream.PassThrough</em> | The mandatory field separator. |
-| __header*__ | <em>Buffer</em>             | The header found before data.  |
+|    Name     |             Type             |          Description           |
+| ----------- | ---------------------------- | ------------------------------ |
+| __stream*__ | <em>!stream.PassThrough</em> | The mandatory field separator. |
+| __header*__ | <em>!Buffer</em>             | The header found before data.  |
 
 </td></tr>
 <tr><td>
@@ -230,68 +230,68 @@ await http.startPlain((req, res) => {
 ```sh
 nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
   nicer 🔎  Finished boundary scan, buffer of length 50B left, separators found: 0 +2ms
-  nicer one consume safe consumed 0B and left 50B +0ms
+  nicer one consume safe consumed 0B and left 50B +10ms
   nicer <concat-transform> +1ms
   nicer <concat-transform> 100B +0ms
   nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
-  nicer   ⭐  Found starting boundary at index 2 +0ms
+  nicer   ⭐  Found starting boundary at index 2 +1ms
   nicer 🔎  Finished boundary scan, buffer of length 48B left, separators found: 1 +0ms
-  nicer one consume safe consumed 52B and left 48B +1ms
+  nicer one consume safe consumed 52B and left 48B +0ms
   nicer <concat-transform> +0ms
   nicer <concat-transform> 98B +0ms
   nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
   nicer 🔎  Finished boundary scan, buffer of length 98B left, separators found: 0 +0ms
-  nicer one consume safe consumed 46B and left 52B +0ms
+  nicer one consume safe consumed 46B and left 52B +1ms
   nicer <concat-transform> +0ms
-  nicer <concat-transform> 102B +1ms
+  nicer <concat-transform> 102B +0ms
   nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
   nicer   🔛  Found boundary, data size 7B +0ms
-  nicer   🗒  Found header and data of size <53B> +8ms
-  nicer      Content-Disposition: form-data; name="key" +0ms
-  nicer      value +1ms
+  nicer   🗒  Found header and data of size <53B> +0ms
+  nicer      Content-Disposition: form-data; name="key" +1ms
+  nicer      value +0ms
   nicer 🔎  Finished boundary scan, buffer of length 43B left, separators found: 1 +1ms
   nicer one consume safe consumed 59B and left 43B +0ms
   nicer <concat-transform> +0ms
   nicer <concat-transform> 93B +0ms
-  nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +1ms
-  nicer 🔎  Finished boundary scan, buffer of length 93B left, separators found: 0 +0ms
+  nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
+  nicer 🔎  Finished boundary scan, buffer of length 93B left, separators found: 0 +1ms
   nicer one consume safe consumed 41B and left 52B +0ms
   nicer <concat-transform> +0ms
   nicer <concat-transform> 102B +0ms
   nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
   nicer   🔛  Found boundary, data size 13B +0ms
   nicer   🗒  Found header and data of size <54B> +0ms
-  nicer      Content-Disposition: form-data; name="alan" +1ms
+  nicer      Content-Disposition: form-data; name="alan" +0ms
   nicer      watts +0ms
-  nicer 🔎  Finished boundary scan, buffer of length 37B left, separators found: 1 +0ms
+  nicer 🔎  Finished boundary scan, buffer of length 37B left, separators found: 1 +1ms
   nicer one consume safe consumed 65B and left 37B +0ms
   nicer <concat-transform> +0ms
   nicer <concat-transform> 87B +0ms
-  nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +1ms
+  nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
   nicer 🔎  Finished boundary scan, buffer of length 87B left, separators found: 0 +0ms
   nicer one consume safe consumed 35B and left 52B +0ms
   nicer <concat-transform> +0ms
-  nicer <concat-transform> 102B +1ms
-  nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
-  nicer 🔎  Finished boundary scan, buffer of length 102B left, separators found: 0 +0ms
-  nicer       <concat-header> +0ms
-  nicer       <concat-header> 85B +0ms
-  nicer one consume safe consumed 50B and left 52B +1ms
-  nicer <concat-transform> +0ms
   nicer <concat-transform> 102B +0ms
   nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
+  nicer 🔎  Finished boundary scan, buffer of length 102B left, separators found: 0 +1ms
+  nicer       <concat-header> +0ms
+  nicer       <concat-header> 85B +0ms
+  nicer one consume safe consumed 50B and left 52B +0ms
+  nicer <concat-transform> +0ms
+  nicer <concat-transform> 102B +1ms
+  nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
   nicer   🔛  Found boundary, data size 50B +0ms
-  nicer   🗒  Found header and data of size <135B> +1ms
+  nicer   🗒  Found header and data of size <135B> +0ms
   nicer      Content-Disposition: form-data; name="file"; filename="test/fixture/test.txt" +0ms
   nicer      Content-Type: ap... +0ms
   nicer 🔎  Finished boundary scan, buffer of length 0B left, separators found: 1 +0ms
   nicer one consume safe consumed 102B and left 0B +0ms
   nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
+  nicer 🔎  Finished boundary scan, buffer of length 4B left, separators found: 0 +1ms
+  nicer one consume safe consumed 0B and left 4B +0ms
+  nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +8ms
   nicer 🔎  Finished boundary scan, buffer of length 4B left, separators found: 0 +0ms
   nicer one consume safe consumed 0B and left 4B +1ms
-  nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +13ms
-  nicer 🔎  Finished boundary scan, buffer of length 4B left, separators found: 0 +0ms
-  nicer one consume safe consumed 0B and left 4B +0ms
 ```
 </td></tr>
 <tr><td>After knowing what's left after the last found boundary, the <em>Nicer</em> parser takes only the safe amount of data to consume more which equals to the length of the boundary (including prior --), otherwise there might be a partial boundary leaking into the data stream. The remainder is saved as the new buffer, to which the following chunk in the transform method will be appended, and so on.</td></tr>

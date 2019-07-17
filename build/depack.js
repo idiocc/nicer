@@ -1,3 +1,4 @@
+import '../types/externs'
 const Nicer = require('./');
 
-DEPACK_EXPORT = { '_Nicer': Nicer }
+module.exports = Nicer

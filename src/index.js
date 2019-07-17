@@ -1,9 +1,8 @@
 import { PassThrough, Transform } from 'stream'
 import Debug from '@idio/debug'
-import { format } from '../benchmark/bytes'
 import { c as C, b as B } from 'erte'
 
-const debug = Debug('nicer')
+const debug=Debug('nicer')
 
 const trunc = (s, l = 97) => {
   let h = s.slice(0, l)
@@ -73,9 +72,8 @@ export default class Nicer extends Transform {
     if (i != -1) {
       const { header, data: newData } = splitHeader(this.header, i)
       this.state = 'reading_body'
-      const dl = format(newData.length)
-      debug(`    🗒  Found header at %s, data available <%s>
-       %s`, C(`${i}`, 'yellow'), dl, '_'.repeat(35 + `${i}`.length + dl.length))
+      debug(`    🗒  Found header at %s, data available <%f>`,
+        C(`${i}`, 'yellow'), newData.length)
 
       debugHeader(header)
 

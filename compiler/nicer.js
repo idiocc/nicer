@@ -5,7 +5,7 @@ const tty = require('tty');
 const util = require('util');             
 const {PassThrough:h, Transform:k} = stream;
 var l = tty;
-const {format:m, inspect:n} = util;
+const {format:m, inspect:r} = util;
 /*
 
  Copyright (c) 2016 Zeit, Inc.
@@ -17,7 +17,7 @@ function t(a) {
     return u(a);
   }
   if ("number" == c && isFinite(a)) {
-    return b.C ? (b = Math.abs(a), a = 864E5 <= b ? v(a, b, 864E5, "day") : 36E5 <= b ? v(a, b, 36E5, "hour") : 6E4 <= b ? v(a, b, 6E4, "minute") : 1000 <= b ? v(a, b, 1000, "second") : a + " ms") : (b = Math.abs(a), a = 864E5 <= b ? Math.round(a / 864E5) + "d" : 36E5 <= b ? Math.round(a / 36E5) + "h" : 6E4 <= b ? Math.round(a / 6E4) + "m" : 1000 <= b ? Math.round(a / 1000) + "s" : a + "ms"), a;
+    return b.s ? (b = Math.abs(a), a = 864E5 <= b ? w(a, b, 864E5, "day") : 36E5 <= b ? w(a, b, 36E5, "hour") : 6E4 <= b ? w(a, b, 6E4, "minute") : 1000 <= b ? w(a, b, 1000, "second") : a + " ms") : (b = Math.abs(a), a = 864E5 <= b ? Math.round(a / 864E5) + "d" : 36E5 <= b ? Math.round(a / 36E5) + "h" : 6E4 <= b ? Math.round(a / 6E4) + "m" : 1000 <= b ? Math.round(a / 1000) + "s" : a + "ms"), a;
   }
   throw Error("val is not a non-empty string or a valid number. val=" + JSON.stringify(a));
 }
@@ -67,7 +67,7 @@ function u(a) {
     }
   }
 }
-function v(a, b, c, d) {
+function w(a, b, c, d) {
   return Math.round(a / c) + " " + d + (b >= 1.5 * c ? "s" : "");
 }
 ;/*
@@ -81,8 +81,8 @@ function A(a, b) {
   if (!Number.isFinite(a)) {
     return null;
   }
-  const c = Math.abs(a), d = b && b.D || "", f = b && b.G || "", g = b && void 0 !== b.j ? b.j : 2, e = !(!b || !b.B);
-  (b = b && b.F || "") && z[b.toLowerCase()] || (b = c >= z.pb ? "PB" : c >= z.tb ? "TB" : c >= z.gb ? "GB" : c >= z.mb ? "MB" : c >= z.kb ? "KB" : "B");
+  const c = Math.abs(a), d = b && b.u || "", f = b && b.w || "", g = b && void 0 !== b.j ? b.j : 2, e = !(!b || !b.m);
+  (b = b && b.v || "") && z[b.toLowerCase()] || (b = c >= z.pb ? "PB" : c >= z.tb ? "TB" : c >= z.gb ? "GB" : c >= z.mb ? "MB" : c >= z.kb ? "KB" : "B");
   a = (a / z[b.toLowerCase()]).toFixed(g);
   e || (a = a.replace(y, "$1"));
   d && (a = a.replace(x, d));
@@ -118,10 +118,10 @@ const F = Object.keys(process.env).filter(a => /^debug_/i.test(a)).reduce((a, b)
   return a;
 }, {}), G = Object.assign({}, {o:function(a) {
   const b = Object.assign({}, this.inspectOpts, {colors:this.useColors});
-  return n(a, b).replace(/\s*\n\s*/g, " ");
+  return r(a, b).replace(/\s*\n\s*/g, " ");
 }, O:function(a) {
   const b = Object.assign({}, this.inspectOpts, {colors:this.useColors});
-  return n(a, b);
+  return r(a, b);
 }}, E), H = {init:function(a) {
   a.inspectOpts = Object.assign({}, F);
 }, log:function(...a) {
@@ -145,22 +145,22 @@ const F = Object.keys(process.env).filter(a => /^debug_/i.test(a)).reduce((a, b)
 function I(a) {
   function b(...e) {
     if (b.enabled) {
-      var p = Number(new Date);
-      b.diff = p - (g || p);
+      var n = Number(new Date);
+      b.diff = n - (g || n);
       b.prev = g;
-      g = b.curr = p;
+      g = b.curr = n;
       e[0] = J(e[0]);
       "string" != typeof e[0] && e.unshift("%O");
-      var q = 0;
-      e[0] = e[0].replace(/%([a-zA-Z%]+)/g, (r, w) => {
-        if ("%%" == r) {
-          return r;
+      var p = 0;
+      e[0] = e[0].replace(/%([a-zA-Z%]+)/g, (q, v) => {
+        if ("%%" == q) {
+          return q;
         }
-        q++;
-        if (w = c[w]) {
-          r = w.call(b, e[q]), e.splice(q, 1), q--;
+        p++;
+        if (v = c[v]) {
+          q = v.call(b, e[p]), e.splice(p, 1), p--;
         }
-        return r;
+        return q;
       });
       d.call(b, e);
       (b.log || f).apply(b, e);
@@ -237,9 +237,8 @@ class N {
 function J(a) {
   return a instanceof Error ? a.stack || a.message : a;
 }
-;const O = /(?:\.0*|(\.[^0]+)0+)$/, P = {A:1, s:1024, u:1048576, l:1073741824, w:Math.pow(1024, 4), v:Math.pow(1024, 5)};
-var Q;
-Q = function() {
+;var O;
+O = function() {
   const a = new N(H);
   return function(b) {
     const c = K(a);
@@ -259,15 +258,15 @@ Q = function() {
     return c;
   };
 }()("nicer");
-const R = (a, b = 97) => {
+const P = (a, b = 97) => {
   let c = a.slice(0, b);
   a.length >= b + 3 ? c += "..." : a.length == b + 2 ? c += ".." : a.length == b + 1 && (c += ".");
   return c;
-}, S = (a, b) => {
+}, Q = (a, b) => {
   const c = a.slice(0, b);
   a = a.slice(b + 4);
   return {header:c, data:a};
-}, T = (a, b, c = "", d = 0) => {
+}, R = (a, b, c = "", d = 0) => {
   if (!a.length) {
     return b;
   }
@@ -276,80 +275,69 @@ const R = (a, b = 97) => {
   }
   d = " ".repeat(d);
   c && (c = `-${c}`);
-  Q("%s<concat%s>", d, c);
+  O("%s<concat%s>", d, c);
   a = Buffer.concat([a, b]);
-  Q("%s<concat%s> %f", d, c, a.length);
+  O("%s<concat%s> %f", d, c, a.length);
   return a;
 };
-function U(a, b) {
+function S(a, b) {
   a.h += b.length;
   a.g.write(b);
-  Q("    \ud83d\udcdd  Wrote %f to body", b.length);
+  O("    \ud83d\udcdd  Wrote %f to body", b.length);
 }
-function V(a, b) {
-  if (b.length && (a.header = T(a.header, b, "header", 6), b = a.header.indexOf("\r\n\r\n"), -1 != b)) {
-    const {header:g, data:e} = S(a.header, b);
+function T(a, b) {
+  if (b.length && (a.header = R(a.header, b, "header", 6), b = a.header.indexOf("\r\n\r\n"), -1 != b)) {
+    const {header:c, data:d} = Q(a.header, b);
     a.a = "reading_body";
-    var c;
-    var d = e.length;
-    if (Number.isFinite(d)) {
-      var f = Math.abs(d);
-      c = "", c = f >= P.v ? "PB" : f >= P.w ? "TB" : f >= P.l ? "GB" : f >= P.u ? "MB" : f >= P.s ? "KB" : "B";
-      d = (d / P[c.toLowerCase()]).toFixed(2);
-      d = d.replace(O, "$1");
-      c = d + c;
-    } else {
-      c = null;
-    }
-    Q("    \ud83d\uddd2  Found header at %s, data available <%s>\n       %s", D(`${b}`, "yellow"), c, "_".repeat(35 + `${b}`.length + c.length));
-    W(g);
+    O("    \ud83d\uddd2  Found header at %s, data available <%f>", D(`${b}`, "yellow"), d.length);
+    U(c);
     a.g = new h;
     a.header = Buffer.from("");
-    a.push({header:g, stream:a.g});
-    U(a, e);
+    a.push({header:c, stream:a.g});
+    S(a, d);
   }
 }
-function X(a) {
+function V(a) {
   var {c:b} = a;
-  const c = Y(a, b);
+  const c = W(a, b);
   a = (b = b.length - c.length) ? a.c.slice(b) : a.c;
-  Q("one consume safe consumed %f and left %f", b, a.length);
+  O("one consume safe consumed %f and left %f", b, a.length);
   return a;
 }
-function Y(a, b) {
+function W(a, b) {
   var c, d, f = 0;
-  Q("\ud83d\udd0d  Staring boundary %s scan", D(R(a.boundary.trim(), 15), "red"));
+  O("\ud83d\udd0d  Staring boundary %s scan", D(P(a.boundary.trim(), 15), "red"));
   for (var g = []; -1 != (c = b.indexOf(d = a.boundary));) {
     f++;
     d = c + d.length;
     const e = b.slice(0, c);
     b = b.slice(d);
-    "start" == a.a ? (Q("  \u2b50  Found starting boundary at index %s", D(`${c}`, "yellow")), a.a = "reading_header") : (Q("  \ud83d\udd1b  Found boundary, data size %fm", e.length), "reading_body" == a.a ? (Z(a, e), a.a = "finished_body") : "reading_header" == a.a && a.header.length ? (c = Buffer.concat([a.header, e]), Q("  \ud83d\uddd2  Found header and data of size <%fy>", c.length), W(c, 3), g.push(c), a.header = Buffer.from(""), a.a = "finished_body") : g.push(e));
+    "start" == a.a ? (O("  \u2b50  Found starting boundary at index %s", D(`${c}`, "yellow")), a.a = "reading_header") : (O("  \ud83d\udd1b  Found boundary, data size %fm", e.length), "reading_body" == a.a ? (X(a, e), a.a = "finished_body") : "reading_header" == a.a && a.header.length ? (c = Buffer.concat([a.header, e]), O("  \ud83d\uddd2  Found header and data of size <%fy>", c.length), U(c, 3), g.push(c), a.header = Buffer.from(""), a.a = "finished_body") : g.push(e));
   }
   g.forEach(e => {
-    const p = e.indexOf("\r\n\r\n");
-    if (-1 == p) {
+    const n = e.indexOf("\r\n\r\n");
+    if (-1 == n) {
       throw Error("Did not find the end of header before boundary.");
     }
-    const {header:q, data:r} = S(e, p);
+    const {header:p, data:q} = Q(e, n);
     e = new h;
-    e.end(r);
-    a.push({header:q, stream:e});
+    e.end(q);
+    a.push({header:p, stream:e});
     a.a = "finished_body";
   });
-  Q("\ud83d\udd0e  Finished boundary scan, buffer of length %f left, separators found: %s", b.length, f);
+  O("\ud83d\udd0e  Finished boundary scan, buffer of length %f left, separators found: %s", b.length, f);
   if ("finished_body" == a.a && 45 == b[0] && 45 == b[1]) {
-    return Q("\u3030\ufe0f  Special case, found %s after the boundary", D("--", "red")), a.a = "data-ended", b;
+    return O("\u3030\ufe0f  Special case, found %s after the boundary", D("--", "red")), a.a = "data-ended", b;
   }
   "finished_body" == a.a && (a.a = "reading_header");
   f = b.slice(0, Math.max(0, b.length - a.boundary.length));
   g = b.slice(f.length);
-  return "reading_body" == a.a ? (U(a, f), g) : "reading_header" == a.a ? (V(a, f), g) : "start" == a.a ? g : b;
+  return "reading_body" == a.a ? (S(a, f), g) : "reading_header" == a.a ? (T(a, f), g) : "start" == a.a ? g : b;
 }
-function Z(a, b) {
-  a.g && (b && b.length && U(a, b), Q("    \ud83d\udd12  Closing current data stream, total written: %f", a.h), a.g.push(null), a.g = null, a.h = 0);
+function X(a, b) {
+  a.g && (b && b.length && S(a, b), O("    \ud83d\udd12  Closing current data stream, total written: %f", a.h), a.g.push(null), a.g = null, a.h = 0);
 }
-class aa extends k {
+class Y extends k {
   constructor(a) {
     const {writableHighWaterMark:b, boundary:c} = a || {};
     if (!c) {
@@ -357,8 +345,8 @@ class aa extends k {
     }
     super({writableHighWaterMark:b, readableObjectMode:!0});
     this.c = Buffer.from("");
-    this.m = c;
-    this.i = `--${this.m}`;
+    this.l = c;
+    this.i = `--${this.l}`;
     this.a = "start";
     this.header = Buffer.from("");
     this.h = 0;
@@ -366,7 +354,7 @@ class aa extends k {
   }
   _transform(a, b, c) {
     try {
-      this.c = T(this.c, a, "transform"), this.c = X(this);
+      this.c = R(this.c, a, "transform"), this.c = V(this);
     } catch (d) {
       c(d);
       return;
@@ -378,26 +366,26 @@ class aa extends k {
   }
   _final(a) {
     if ("data-ended" == this.a) {
-      return Z(this), a();
+      return X(this), a();
     }
-    this.c = X(this);
-    Z(this);
+    this.c = V(this);
+    X(this);
     var b = this.c;
     45 == b[0] && 45 == b[1] ? (a(), this.push(null)) : (b = this.c.slice(0, 2).toString(), b = Error(`Unexpected end of request body, wanted to see "--" but saw ${b}.`), a(b), this.push(b));
   }
 }
-const W = (a, b = 5) => {
-  /nicer/.test(`${process.env.DEBUG}`) && R(a).toString().split(/\r?\n/).filter(Boolean).forEach(c => {
+const U = (a, b = 5) => {
+  /nicer/.test(`${process.env.DEBUG}`) && P(a).toString().split(/\r?\n/).filter(Boolean).forEach(c => {
     var d = " ".repeat(b + 2);
     {
       c = `${c}`;
       const f = C.blue;
       c = f ? `\x1b[${f}m${c}\x1b[0m` : c;
     }
-    Q("%s%s", d, D(c, "cyan"));
+    O("%s%s", d, D(c, "cyan"));
   });
 };
-module.exports = aa;
+module.exports = Y;
 
 
 //# sourceMappingURL=nicer.js.map

@@ -1,9 +1,8 @@
 const { PassThrough, Transform } = require('stream');
-let Debug = require('@idio/debug'); if (Debug && Debug.__esModule) Debug = Debug.default;
-const { format } = require('../benchmark/bytes');
+const Debug = require('@idio/debug');
 const { c: C, b: B } = require('erte');
 
-const debug = new Debug('nicer')
+const debug=Debug('nicer')
 
 const trunc = (s, l = 97) => {
   let h = s.slice(0, l)
@@ -34,7 +33,7 @@ const concatBuffer = (a, b, comment='', z=0) => {
   if (comment) comment = `-${comment}`
   debug('%s<concat%s>', x, comment)
   const res = Buffer.concat([a, b])
-  debug('%s<concat%s> %s', x, comment, format(res.length))
+  debug('%s<concat%s> %f', x, comment, res.length)
   return res
 }
 
@@ -50,7 +49,7 @@ class Nicer extends Transform {
       writableHighWaterMark,
       readableObjectMode: true,
     }))
-    /** @type {Buffer} */
+    /** @type {!Buffer} */
     this.buffer = Buffer.from('')
     this.needle = boundary
     this.BOUNDARY = `--${this.needle}`
@@ -73,14 +72,10 @@ class Nicer extends Transform {
     if (i != -1) {
       const { header, data: newData } = splitHeader(this.header, i)
       this.state = 'reading_body'
-      const dl = format(newData.length)
-      debug(`    🗒  Found header at %s, data available <%s>
-       %s`, C(i, 'yellow'), dl, '_'.repeat(35 + `${i}`.length + dl.length))
+      debug(`    🗒  Found header at %s, data available <%f>`,
+        C(`${i}`, 'yellow'), newData.length)
 
-      const h = trunc(header)
-      h.split(/\r?\n/).filter(Boolean).forEach(l => {
-        debug('       %s', C(B(l, 'blue')))
-      })
+      debugHeader(header)
 
       // if we know this part has finished, we can just flush it wil body as a string...
       this.bodyStream = new PassThrough()
@@ -91,7 +86,9 @@ class Nicer extends Transform {
       // })
       // this.bodyWritten = 0
       this.resetHeader()
-      this.push({ header, stream: this.bodyStream })
+      /** @type {_nicer.NicerPart} */
+      const d = { header, stream: this.bodyStream }
+      this.push(d)
       this.writeBody(newData)
     }
   }
@@ -101,7 +98,7 @@ class Nicer extends Transform {
   writeBody(data) {
     this.bodyWritten += data.length
     this.bodyStream.write(data)
-    debug('    📝  Wrote %s to body', format(data.length))
+    debug('    📝  Wrote %f to body', data.length)
   }
   _transform(chunk, enc, next) {
     // console.log('RECEIVED %s', chunk.length)
@@ -131,18 +128,21 @@ class Nicer extends Transform {
     const rest = this.consumeSafe(buffer)
     const howmuchconsumed = buffer.length - rest.length
     const left = howmuchconsumed ? this.buffer.slice(howmuchconsumed) : this.buffer
-    debug('one consume safe consumed %s and left %s', format(howmuchconsumed), format(left.length))
+    debug('one consume safe consumed %f and left %f', howmuchconsumed, left.length)
     return left
   }
   get boundary() {
     const boundary = this.state == 'start' ? this.BOUNDARY : `\r\n${this.BOUNDARY}`
     return boundary
   }
+  /**
+   * @param {Buffer} [data]
+   */
   finishCurrentStream(data) {
     if (!this.bodyStream) return
 
     if (data && data.length) this.writeBody(data)
-    debug('    🔒  Closing current data stream, total written: %s', format(this.bodyWritten))
+    debug('    🔒  Closing current data stream, total written: %f', this.bodyWritten)
     this.bodyStream.push(null)
     this.bodyStream = null
     this.bodyWritten = 0
@@ -169,18 +169,21 @@ class Nicer extends Transform {
 
       // when in here, guaranteed to have a body finished
       if (this.state == 'start') {
-        debug('  ⭐  Found starting boundary at index %s', C(i, 'yellow'))
+        debug('  ⭐  Found starting boundary at index %s', C(`${i}`, 'yellow'))
         this.state = 'reading_header'
         continue
       }
-      debug('  🔛  Found boundary, part size %s', C(format(data.length), 'magenta'))
+      debug('  🔛  Found boundary, data size %fm', data.length)
       // what if state is reading body
       if (this.state == 'reading_body') {
         this.finishCurrentStream(data)
         this.state = 'finished_body'
       } else if (this.state == 'reading_header' && this.header.length) {
         // headerToConsume = data
-        toConsume.push(Buffer.concat([this.header, data]))
+        const header = Buffer.concat([this.header, data])
+        debug(`  🗒  Found header and data of size <%fy>`, header.length)
+        debugHeader(header, 3)
+        toConsume.push(header)
         this.resetHeader()
         this.state = 'finished_body'
         // found end
@@ -213,8 +216,8 @@ class Nicer extends Transform {
     // OR HANDLE IT HERE
     // -- END
     // -- PUSH TO THE BODY or HEADER
-    debug('🔎  Finished boundary scan, buffer of length %s left, separators found: %s',
-      format(buffer.length), foundSeparator)
+    debug('🔎  Finished boundary scan, buffer of length %f left, separators found: %s',
+      buffer.length, foundSeparator)
 
     if (this.state == 'finished_body' && checkIsEnd(buffer)) {
       debug('〰️  Special case, found %s after the boundary', C('--', 'red'))
@@ -274,6 +277,14 @@ class Nicer extends Transform {
 const checkIsEnd = (buffer) => {
   const endsWithDashes = buffer[0] == 45 && buffer[1] == 45
   return endsWithDashes
+}
+
+const debugHeader = (header, i = 5) => {
+  if (!/nicer/.test(`${process.env.DEBUG}`)) return
+  const h = trunc(header)
+  h.toString().split(/\r?\n/).filter(Boolean).forEach(l => {
+    debug('%s%s', ' '.repeat(i +2), C(B(`${l}`, 'blue'), 'cyan'))
+  })
 }
 
 module.exports = Nicer
