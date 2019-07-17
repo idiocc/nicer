@@ -89,7 +89,7 @@ export default class Nicer extends Transform {
       // this.bodyWritten = 0
       this.resetHeader()
       /** @type {_nicer.NicerPart} */
-      const d = /** @type {_nicer.NicerPart} */ ({ header, stream: this.bodyStream })
+      const d = { header, stream: this.bodyStream }
       this.push(d)
       this.writeBody(newData)
     }

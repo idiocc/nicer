@@ -72,6 +72,37 @@ const T = {
       })
       .assert(200, [5, 4, 1266310])
   },
+  async 'receives header'({ startPlain, getBoundary, fixture }) {
+    let b
+    await startPlain(async (req, res) => {
+      const boundary = getBoundary(req, res)
+      if (!boundary) return
+
+      const nicer = new Nicer({ boundary })
+      // const bt = new BufferTransform()
+      req
+        // .pipe(bt)
+        .pipe(nicer)
+      const s = []
+      // how to add jsdoc on on
+      nicer.on('data', ({ header }) => {
+        s.push(header.toString())
+      })
+      nicer.on('end', async () => {
+        res.setHeader('content-type', 'application/json')
+        res.end(JSON.stringify(s))
+      })
+    })
+      .postForm('/', async (form) => {
+        form.addSection('hello', 'world')
+        form.addSection('test', 'data')
+        await form.addFile(fixture`cat.JPG`, 'picture')
+      })
+      .assert(200).assert(f => {
+        b = f.body
+      })
+    return b
+  },
   async 'reads small file'({ startPlain, getBoundary, fixture }) {
     await startPlain(async (req, res) => {
       const boundary = getBoundary(req, res)

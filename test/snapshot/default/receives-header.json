@@ -1,0 +1,5 @@
+[
+  "\r\nContent-Disposition: form-data; name=\"hello\"",
+  "\r\nContent-Disposition: form-data; name=\"test\"",
+  "\r\nContent-Disposition: form-data; name=\"picture\"; filename=\"test/fixture/cat.JPG\"\r\nContent-Type: application/octet-stream"
+]
