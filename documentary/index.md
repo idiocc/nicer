@@ -11,18 +11,14 @@ yarn add nicer
 <table>
 <tr><th colspan="2"><a href="benchmark/default.js">Benchmark</a></th></tr>
 <!-- block-start -->
-<tr><td>
+<tr><td colspan="2">
 
-%_FORK-java node_modules/.bin/zoroaster benchmark/default.js -a -t 100000 -s benchmark/snapshot -r benchmark/default%
-</td>
-<td>
-
-%_FORKERR-java node_modules/.bin/zoroaster benchmark/default.js -a -t 100000 -s benchmark/snapshot -r benchmark/default%
+%_FORKERR-table node_modules/.bin/zoroaster benchmark/default.js -a -t 100000 -s benchmark/snapshot -r benchmark/default%
 </td>
 </tr>
 <tr><td colspan="2"><md2html>
 
-<a href="https://github.com/idiocc/nicer">_Nicer_</a> is comparable to the faster streaming parser, <a href="https://github.com/idiocc/dicer">_Dicer_</a> since the real-world data (uploading 2 fields, 2 text files and 50 photos) is processed at speeds that are close. In the benchmark, `nicer` is the source code of this package, whereas _Nicer_ is the <a href="https://compiler.page">optimised JavaScript</a> version compiled with Closure Compiler, which increases the speed by about 10%.
+<a href="https://github.com/idiocc/nicer">_Nicer_</a> is comparable to the faster streaming parser, <a href="https://github.com/idiocc/dicer">_Dicer_</a> since the real-world data (uploading 2 fields, 2 text files and 50 photos) is processed at speeds that are close. In the benchmark, `nicer` is the source code of this package, whereas `nicerc` is the <a href="https://compiler.page">compiled JavaScript</a> optimised Closure Compiler, which probably increases the speed by 5-10%.
 </md2html></td></tr>
 <!-- /block-end -->
 </table>

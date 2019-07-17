@@ -10,47 +10,16 @@ yarn add nicer
 
 <table>
 <tr><th colspan="2"><a href="benchmark/default.js">Benchmark</a></th></tr>
-<tr><td>
+<tr><td colspan="2">
 
-```java
-benchmark/default.js
-  ✓  sends 100mb of data with nicer
-  ✓  sends 100mb of data with Nicer
-  ✓  sends 100mb of data with dicer
-
-  ✓  sends 100mb of data with dicer (2)
-  ✓  sends 100mb of data with nicer (2)
-  ✓  sends 100mb of data with Nicer (2)
-
-  ✓  sends 100mb of data with Nicer (3)
-  ✓  sends 100mb of data with dicer (3)
-  ✓  sends 100mb of data with nicer (3)
-
-🦅  Executed 9 tests.
-```
-</td>
-<td>
-
-```java
-​
-Processed 105.38MB at 70.91mb/s
-Processed 105.38MB at 77.20mb/s
-Processed 105.38MB at 95.97mb/s
-​
-Processed 105.38MB at 90.76mb/s
-Processed 105.38MB at 82.52mb/s
-Processed 105.38MB at 86.59mb/s
-​
-Processed 105.38MB at 93.59mb/s
-Processed 105.38MB at 103.21mb/s
-Processed 105.38MB at 88.70mb/s
-​
-​
-​
-```
+| Library |     1     |     2      |     3      |
+| ------- | --------- | ---------- | ---------- |
+| nicer   | 73.23mb/s | 78.29mb/s  | 85.26mb/s  |
+| dicer   | 95.80mb/s | 103.82mb/s | 101.91mb/s |
+| nicerc  | 85.12mb/s | 82.07mb/s  | 90.61mb/s  |
 </td>
 </tr>
-<tr><td colspan="2"><a href="https://github.com/idiocc/nicer"><em>Nicer</em></a> is comparable to the faster streaming parser, <a href="https://github.com/idiocc/dicer"><em>Dicer</em></a> since the real-world data (uploading 2 fields, 2 text files and 50 photos) is processed at speeds that are close. In the benchmark, <code>nicer</code> is the source code of this package, whereas <em>Nicer</em> is the <a href="https://compiler.page">optimised JavaScript</a> version compiled with Closure Compiler, which increases the speed by about 10%.</td></tr>
+<tr><td colspan="2"><a href="https://github.com/idiocc/nicer"><em>Nicer</em></a> is comparable to the faster streaming parser, <a href="https://github.com/idiocc/dicer"><em>Dicer</em></a> since the real-world data (uploading 2 fields, 2 text files and 50 photos) is processed at speeds that are close. In the benchmark, <code>nicer</code> is the source code of this package, whereas <code>nicerc</code> is the <a href="https://compiler.page">compiled JavaScript</a> optimised Closure Compiler, which probably increases the speed by 5-10%.</td></tr>
 </table>
 
 
@@ -237,7 +206,7 @@ await http.startPlain((req, res) => {
 
 ```sh
 nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
-  nicer 🔎  Finished boundary scan, buffer of length 50B left, separators found: 0 +1ms
+  nicer 🔎  Finished boundary scan, buffer of length 50B left, separators found: 0 +2ms
   nicer one consume safe consumed 0B and left 50B +0ms
   nicer <concat-transform> +1ms
   nicer <concat-transform> 100B +0ms
@@ -254,17 +223,17 @@ nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
   nicer <concat-transform> 102B +0ms
   nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
   nicer   🔛  Found boundary, data size 7B +0ms
-  nicer   🗒  Found header and data of size <53B> +1ms
-  nicer      Content-Disposition: form-data; name="key" +0ms
+  nicer   🗒  Found header and data of size <53B> +0ms
+  nicer      Content-Disposition: form-data; name="key" +1ms
   nicer      value +0ms
-  nicer 🔎  Finished boundary scan, buffer of length 43B left, separators found: 1 +5ms
+  nicer 🔎  Finished boundary scan, buffer of length 43B left, separators found: 1 +2ms
   nicer one consume safe consumed 59B and left 43B +0ms
   nicer <concat-transform> +0ms
   nicer <concat-transform> 93B +0ms
-  nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +1ms
-  nicer 🔎  Finished boundary scan, buffer of length 93B left, separators found: 0 +1ms
-  nicer one consume safe consumed 41B and left 52B +1ms
-  nicer <concat-transform> +0ms
+  nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
+  nicer 🔎  Finished boundary scan, buffer of length 93B left, separators found: 0 +0ms
+  nicer one consume safe consumed 41B and left 52B +0ms
+  nicer <concat-transform> +8ms
   nicer <concat-transform> 102B +0ms
   nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
   nicer   🔛  Found boundary, data size 13B +1ms
@@ -284,21 +253,21 @@ nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
   nicer 🔎  Finished boundary scan, buffer of length 102B left, separators found: 0 +0ms
   nicer       <concat-header> +0ms
   nicer       <concat-header> 85B +0ms
-  nicer one consume safe consumed 50B and left 52B +0ms
-  nicer <concat-transform> +1ms
+  nicer one consume safe consumed 50B and left 52B +1ms
+  nicer <concat-transform> +0ms
   nicer <concat-transform> 102B +0ms
-  nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
+  nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +1ms
   nicer   🔛  Found boundary, data size 50B +0ms
   nicer   🗒  Found header and data of size <135B> +0ms
   nicer      Content-Disposition: form-data; name="file"; filename="test/fixture/test.txt" +0ms
-  nicer      Content-Type: ap... +1ms
-  nicer 🔎  Finished boundary scan, buffer of length 0B left, separators found: 1 +0ms
+  nicer      Content-Type: ap... +0ms
+  nicer 🔎  Finished boundary scan, buffer of length 0B left, separators found: 1 +1ms
   nicer one consume safe consumed 102B and left 0B +0ms
   nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +0ms
   nicer 🔎  Finished boundary scan, buffer of length 4B left, separators found: 0 +0ms
-  nicer one consume safe consumed 0B and left 4B +0ms
+  nicer one consume safe consumed 0B and left 4B +1ms
   nicer 🔍  Staring boundary --u2KxIV5yF1y+x... scan +2ms
-  nicer 🔎  Finished boundary scan, buffer of length 4B left, separators found: 0 +1ms
+  nicer 🔎  Finished boundary scan, buffer of length 4B left, separators found: 0 +0ms
   nicer one consume safe consumed 0B and left 4B +0ms
 ```
 </td></tr>

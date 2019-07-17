@@ -10,17 +10,18 @@ import ServiceContext from 'zoroaster'
 const debug = Debug('nicerb')
 
 let i = 0
-const context = [Context, ServiceContext, class {
-  _destroy() {
-    i++
-    if (i == 3) {
-      console.error('\u200B')
-      i = 0
-    }
-  }
-}]
+const context = [Context, ServiceContext]
+//   class {
+//   _destroy() {
+//     i++
+//     if (i == 3) {
+//       console.error('\u200B')
+//       i = 0
+//     }
+//   }
+// }]
 
-const nicerTest = async function (_, { startPlain, startTimer, collectLength, reportEnd }, { snapshotSource }) {
+const nicerTest = async function ({ startPlain, startTimer, collectLength, reportEnd }, { snapshotSource }) {
   snapshotSource('sends 100mb of data with nicer')
   let b
   await startPlain(async (req, res) => {
@@ -65,7 +66,7 @@ const nicerTest = async function (_, { startPlain, startTimer, collectLength, re
 
 const nicerTestCompiled = nicerTest.bind({ compiled: true })
 
-const dicerTest = async function (_, { startPlain, startTimer, collectLength, reportEnd }, { snapshotSource }) {
+const dicerTest = async function ({ startPlain, startTimer, collectLength, reportEnd }, { snapshotSource }) {
   snapshotSource('sends 100mb of data with nicer')
   let b
 
@@ -111,21 +112,29 @@ const stderr = class {
   }
 }
 
+console.error('[["Library", "1", "2", "3"],')
 /** @type {Object<string, (c:Context, z:ServiceContext)} */
 const T = {
-  persistentContext: stderr,
+  // persistentContext: stderr,
   context,
+  'nicer'() { console.error('["nicer"') },
   'sends 100mb of data with nicer': nicerTest,
-  'sends 100mb of data with Nicer': nicerTestCompiled,
-  'sends 100mb of data with dicer\n': dicerTest,
-
-  'sends 100mb of data with dicer (2)': dicerTest,
   'sends 100mb of data with nicer (2)': nicerTest,
-  'sends 100mb of data with Nicer (2)\n': nicerTestCompiled,
-
-  'sends 100mb of data with Nicer (3)': nicerTestCompiled,
-  'sends 100mb of data with dicer (3)': dicerTest,
   'sends 100mb of data with nicer (3)': nicerTest,
+  'nicer-end'(){ console.error('],')},
+
+  'dicer'() { console.error('["dicer"') },
+  'sends 100mb of data with dicer\n': dicerTest,
+  'sends 100mb of data with dicer (2)': dicerTest,
+  'sends 100mb of data with dicer (3)': dicerTest,
+  'dicer-end'(){ console.error('],')},
+
+  'nicerc'() { console.error('["nicerc"') },
+  'sends 100mb of data with Nicer': nicerTestCompiled,
+  'sends 100mb of data with Nicer (2)\n': nicerTestCompiled,
+  'sends 100mb of data with Nicer (3)': nicerTestCompiled,
+  'nicerc-end'(){ console.error(']]')},
+
   // 'sends 100mb of data with dicer (2)': dicerTest,
   // 'sends 100mb of data with nicer (3)': nicerTest,
   // 'sends 100mb of data with dicer (3)': dicerTest,
