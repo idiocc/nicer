@@ -64,6 +64,22 @@ export default class Context extends Http {
     // console.error('Processed %s at %smb/s' , mb, mbPerSec)
     console.error(',"%smb/s"', mbPerSec)
   }
+  /**
+   * Sends hello-world, test-data, dracula.txt, 50xJPG, dracula.txt.
+   * @param {Form} form
+   */
+  static async postForm(form) {
+    form.addSection('hello', 'world')
+    form.addSection('test', 'data')
+    await form.addFile(`benchmark/dracula.txt`, 'file')
+    await Promise.all(Array.from({ length: 50 }).map(async () => {
+      await form.addFile(`benchmark/img.JPG`, 'photo')
+    }))
+    await form.addFile(`benchmark/dracula.txt`, 'file')
+  }
+  get postForm() {
+    return Context.postForm
+  }
 }
 
 
@@ -120,4 +136,5 @@ export class BufferTransform extends Duplex {
  * @suppress {nonStandardJsDocs}
  * @typedef {import('http').IncomingMessage} http.IncomingMessage
  * @typedef {import('http').ServerResponse} http.ServerResponse
+ * @typedef {import('@multipart/form/src').default} Form
  */
