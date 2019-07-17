@@ -56,14 +56,14 @@
   },
   "homepage": "https://github.com/idiocc/nicer#readme",
   "devDependencies": {
-    "@contexts/http": "^1.5.0",
+    "@contexts/http": "^1.5.1",
+    "@idio/debug": "^1.2.0",
+    "@multipart/form": "^1.1.0",
     "alamode": "^2.3.4",
     "documentary": "^1.27.4",
     "erte": "^1.2.0",
     "eslint-config-artdeco": "1.0.1",
     "yarn-s": "1.1.0",
-    "zoroaster": "^4.1.1-alpha",
-    "@idio/debug": "^1.1.1",
-    "@multipart/form": "^1.0.0"
+    "zoroaster": "^4.1.1-alpha"
   }
 }

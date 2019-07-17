@@ -7,13 +7,13 @@
   resolved "https://registry.yarnpkg.com/@artdeco/clean-stack/-/clean-stack-1.1.1.tgz#0a68b9a061b5076ebaf948c150ea26d09c1e753f"
   integrity sha512-q5lO3vGUo0WgkSqzgzjL0HQdA9t2HzQqZISuVuQWMh9xqLuiLFP/ZTsxFc8vpMl7mNpGk7Mm0OeyFQ+Evrp0Cw==
 
-"@contexts/http@^1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@contexts/http/-/http-1.5.0.tgz#e200bc12c8310f15c37c9caa6a91e263349d3a4b"
-  integrity sha512-s9ct/15deEa6EAOZ0CpqDWAk1eA7DZBZ6pphS8T14KiMG4WlYXHSGHvPrBXD+W+vinkuDTsMsJxopJ5Qdx2nMQ==
+"@contexts/http@^1.5.1":
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/@contexts/http/-/http-1.5.1.tgz#44f44335f3463044951d9298f615a48c66789659"
+  integrity sha512-zzu5FqWk6nM5SycPpf6OPz3CoZPcdUSOfaKpVkaHpkI8DDTKcBRmmlAUzQftuKE+F3dcsYvVLnnaPwiP8LuBkg==
   dependencies:
     "@artdeco/clean-stack" "^1.1.1"
-    "@multipart/form" "^1.0.0"
+    "@multipart/form" "^1.1.0"
     "@rqt/aqt" "^1.2.6"
     "@zoroaster/deep-equal" "^1.0.1"
     erotic "^2.1.1"
@@ -47,17 +47,15 @@
   resolved "https://registry.yarnpkg.com/@depack/split/-/split-1.0.0.tgz#37fea28d9bc6f01e5a2da87d393f402781bb7e99"
   integrity sha512-PNJPl01VFMKtyN7qBZ2cds4N/lO2KvzLrR7JamODFiuuL2X8mGoTKp1SI8fxlT2MwLV8mScCUKn55QPwsUX7iA==
 
-"@idio/debug@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@idio/debug/-/debug-1.1.1.tgz#e96f104158340de92a4f06039208a78beba4e175"
-  integrity sha512-w1GrjaiTBsgoqo0UobxL0aaEqiCQ8q/UFJr8IJhoycsvPDqXiRJi62L87jd6iDPn2uluHG0VD4f1BsBEvUPx7Q==
+"@idio/debug@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@idio/debug/-/debug-1.2.0.tgz#5331caacc7d5d98e8ef594d66708a2dfd6d9aded"
+  integrity sha512-04db3pUeOlVoee7KI5f2G+gMjBRh1gbqKGKvsKz5k66zPbBFn62alzuQRxIuh/MY2vvLTQ0/irDb4+oWS5oWVA==
 
-"@multipart/form@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@multipart/form/-/form-1.0.0.tgz#c318d7185300d2d3339e64d38b64197d64613620"
-  integrity sha512-FDeaYHoXe4HeEZ3QYJzfrFH8EJFKTG2WIoEGwL3Vms71LT20skaMifehgMNmQ8pNrTq+Zg8FKTGJDxDTTXoM3A==
-  dependencies:
-    "@wrote/read" "^1.0.4"
+"@multipart/form@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@multipart/form/-/form-1.1.0.tgz#15d16e113565f9c157a636e0bf439dbae6b34a46"
+  integrity sha512-CiymdHyaOFbEBsB0+dNXK9vJxWuBXV6X9mXeAhtfjREDE8R3v/VwpdtTawWf9Vev6HCdKz1xDyw0gC7d9CAZlQ==
 
 "@rqt/aqt@^1.2.6":
   version "1.2.6"

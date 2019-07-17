@@ -7,7 +7,7 @@ import { collect } from 'catchment'
 import { c } from 'erte'
 import ServiceContext from 'zoroaster'
 
-const debug = new Debug('nicerb')
+const debug = Debug('nicerb')
 
 const context = [Context, ServiceContext]
 
@@ -41,6 +41,10 @@ const nicerTest = async function (_, { startPlain, startTimer, collectLength, re
       const data = await Promise.all(s)
       res.setHeader('content-type', 'application/json')
       res.end(JSON.stringify(data.map(f => f.length)))
+    })
+    nicer.on('error', (err) => {
+      res.statusCode = 500
+      res.end(err.message)
     })
   })
     .postForm('/', postForm).assert(200)
@@ -89,7 +93,7 @@ const dicerTest = async function (_, { startPlain, startTimer, collectLength, re
 
 const stderr = class {
   _init() {
-    console.error('\u200B')
+    // console.error('\u200B')
     console.error('\u200B')
   }
   _destroy() {
