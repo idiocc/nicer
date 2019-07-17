@@ -71,10 +71,7 @@ import Nicer from 'nicer'
 
 ## `constructor(`<br/>&nbsp;&nbsp;`boundary: string,`<br/>`): Nicer`
 
-Creates a transform that emits objects with a header buffer and the body stream. The body stream is a pass-through so all data must be written as it comes, the request doesn't pause for data to be consumed. The header is a buffer which can be parsed more and/or decrypted, but it does not stream. The assumption is the headers are short therefore a header buffer is accumulated until /r/n is found. Just make sure to run behind nginx then it should be alright.
-
-- [ ] [**TODO**] throw on header-buffer-overflow.
-- [ ] [**TODO**] emit ended streams as data so that they don't have to be assigned listeners _etc_.
+Creates a transform that emits objects with a header buffer and the body stream. The body stream is a pass-through so all data must be written as it comes, the request doesn't pause for data to be consumed. The header is a buffer which can be parsed more and/or decrypted, but it does not stream. The assumption is the headers are short therefore a header buffer is accumulated until `\r\n` is found. Just make sure to run behind NginX then it should be alright.
 
 <table>
 <tr><th>
