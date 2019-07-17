@@ -12,11 +12,12 @@ yarn add nicer
 <tr><th colspan="2"><a href="benchmark/default.js">Benchmark</a></th></tr>
 <tr><td colspan="2">
 
-| Library |     1     |     2      |     3      |
-| ------- | --------- | ---------- | ---------- |
-| nicer   | 73.23mb/s | 78.29mb/s  | 85.26mb/s  |
-| dicer   | 95.80mb/s | 103.82mb/s | 101.91mb/s |
-| nicerc  | 85.12mb/s | 82.07mb/s  | 90.61mb/s  |
+|  Library   |     1     |     2     |     3     |
+| ---------- | --------- | --------- | --------- |
+| nicer      | 61.30mb/s | 84.78mb/s | 84.91mb/s |
+| dicer      | 82.65mb/s | 48.83mb/s | 55.43mb/s |
+| multiparty | 20.87mb/s | 19.88mb/s | 27.06mb/s |
+| nicerc     | 58.61mb/s | 47.79mb/s | 64.89mb/s |
 </td>
 </tr>
 <tr><td colspan="2"><a href="https://github.com/idiocc/nicer"><em>Nicer</em></a> is comparable to the faster streaming parser, <a href="https://github.com/idiocc/dicer"><em>Dicer</em></a> since the real-world data (uploading 2 fields, 2 text files and 50 photos) is processed at speeds that are close. In the benchmark, <code>nicer</code> is the source code of this package, whereas <code>nicerc</code> is the <a href="https://compiler.page">compiled JavaScript</a> optimised Closure Compiler, which probably increases the speed by 5-10%.</td></tr>

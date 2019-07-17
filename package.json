@@ -63,6 +63,7 @@
     "documentary": "^1.27.5",
     "erte": "^1.2.0",
     "eslint-config-artdeco": "1.0.1",
+    "multiparty": "^4.2.1",
     "yarn-s": "1.1.0",
     "zoroaster": "^4.1.1-alpha"
   }
