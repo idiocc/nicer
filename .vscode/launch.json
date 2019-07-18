@@ -78,6 +78,22 @@
       "skipFiles": [
         "<node_internals>/**/*.js"
       ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Benchmark Dicer",
+      "program": "${workspaceFolder}/node_modules/.bin/alanode",
+      "console": "integratedTerminal",
+      "env": {
+        "DEBUG": "nicer,nicerb",
+      },
+      "args": [
+        "benchmark/dicer.js"
+      ],
+      "skipFiles": [
+        "<node_internals>/**/*.js"
+      ]
     }
   ]
 }
