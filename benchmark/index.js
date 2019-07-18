@@ -1,7 +1,7 @@
 import Nicer from '../src'
-import Debug from '@idio/debug'
 import { format } from './bytes'
 import createMultipartBuffer from './create-buffer'
+import Debug from '@idio/debug'
 
 const debug = new Debug('nicerb')
 
@@ -10,8 +10,6 @@ const n = new Nicer({ boundary: BOUNDARY })
 const MB = 100
 const BUFFER = createMultipartBuffer(BOUNDARY, MB * 1024 * 1024)
 
-const start = +new Date()
-n.end(BUFFER)
 let file = 0
 n.on('end', () => {
   const duration = +new Date - start
@@ -28,6 +26,10 @@ n.on('data', ({ header, stream }) => {
     debug('(%s) ended stream', file)
   })
 })
+
+const start = +new Date()
+n.end(BUFFER)
+
 // n.pipe(process.stdout)
 
 
