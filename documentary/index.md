@@ -13,7 +13,7 @@ yarn add nicer
 <!-- block-start -->
 <tr><td>
 
-%_FORKERR-table node_modules/.bin/zoroaster benchmark/default -a -t 100000 -s benchmark/snapshot -r benchmark/default%
+%!_FORKERR-table node_modules/.bin/zoroaster benchmark/default -a -t 100000 -s benchmark/snapshot -r benchmark/default%
 </td><td>
 <details>
 <summary>[Stable Benchmark](t) (18 Jul)</summary>
@@ -33,19 +33,15 @@ yarn add nicer
 </md2html></td></tr>
 <!-- /block-end -->
 <!-- block-start -->
-<tr><td>
+<!-- <tr><td colspan="2">
 
 %EXAMPLE: benchmark, ../src => nicer%
-</td>
-<td>
-
-%FORK %
 </td>
 </tr>
 <tr><td colspan="2"><md2html>
 
 
-</md2html></td></tr>
+</md2html></td></tr> -->
 <!-- /block-end -->
 </table>
 

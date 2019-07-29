@@ -12,12 +12,12 @@ yarn add nicer
 <tr><th colspan="2"><a href="benchmark/default">Benchmark</a></th></tr>
 <tr><td>
 
-|  Library   |     1     |     2     |     3     |
-| ---------- | --------- | --------- | --------- |
-| dicer      | 79.95mb/s | 91.79mb/s | 92.93mb/s |
-| multiparty | 25.56mb/s | 28.78mb/s | 28.79mb/s |
-| nicer      | 67.25mb/s | 72.23mb/s | 72.03mb/s |
-| nicerc     | 68.83mb/s | 79.95mb/s | 78.82mb/s |
+|  Library   |     1      |     2      |     3      |
+| ---------- | ---------- | ---------- | ---------- |
+| dicer      | 137.21mb/s | 100.65mb/s | 165.95mb/s |
+| multiparty | 25.78mb/s  | 29.48mb/s  | 29.60mb/s  |
+| nicer      | 106.55mb/s | 112.46mb/s | 134.24mb/s |
+| nicerc     | 114.42mb/s | 115.04mb/s | 116.57mb/s |
 </td><td>
 <details>
 <summary><a name="stable-benchmark">Stable Benchmark</a> (18 Jul)</summary>
@@ -32,53 +32,6 @@ yarn add nicer
 </td>
 </tr>
 <tr><td colspan="2"><a href="https://github.com/idiocc/nicer"><em>Nicer</em></a> is comparable to the faster streaming parser, <a href="https://github.com/idiocc/dicer"><em>Dicer</em></a> since the real-world data (uploading 2 fields, 2 text files and 50 photos) is processed at speeds that are close to max 90mb/s. In the benchmark, <code>nicer</code> is the source code of this package, whereas <code>nicerc</code> is the <a href="https://compiler.page">compiled JavaScript</a> optimised Closure Compiler, which probably increases the speed by 5-10%.</td></tr>
-<tr><td>
-
-```js
-import Nicer from 'nicer'
-import { format } from './bytes'
-import createMultipartBuffer from './create-buffer'
-import Debug from '@idio/debug'
-
-const debug = new Debug('nicerb')
-
-const BOUNDARY = '-----------------------------168072824752491622650073'
-const n = new Nicer({ boundary: BOUNDARY })
-const MB = 100
-const BUFFER = createMultipartBuffer(BOUNDARY, MB * 1024 * 1024)
-
-let file = 0
-n.on('end', () => {
-  const duration = +new Date - start
-  const mbPerSec = (MB / (duration / 1000)).toFixed(2)
-  console.log(mbPerSec+' mb/sec')
-})
-n.on('data', ({ header, stream }) => {
-  file++
-  console.log(`Received header: ${header}`)
-  stream.on('data', (d) => {
-    debug('(%s) received emitted from stream %s', file, format(d.length))
-  })
-  stream.on('end', () => {
-    debug('(%s) ended stream', file)
-  })
-})
-
-const start = +new Date()
-n.end(BUFFER)
-
-// n.pipe(process.stdout)
-
-
-//assert.equal(nparsed, buffer.length);
-```
-</td>
-<td>
-
-%FORK %
-</td>
-</tr>
-<tr><td colspan="2"></td></tr>
 </table>
 
 <p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/0.svg?sanitize=true"></a></p>
