@@ -1,3 +1,9 @@
+## 29 July 2019
+
+### [1.0.0](https://github.com/idiocc/nicer/compare/v0.1.0...v1.0.0)
+
+- [package] Publish `v1` of the working package.
+
 ## 9 July 2019
 
 ### [0.1.0](https://github.com/idiocc/nicer/compare/v0.0.0-pre...v0.1.0)
