@@ -8,7 +8,7 @@
         }
       }
     },
-    "test-compiler": {
+    "test-compile": {
       "import": {
         "replacement": {
           "from": "^((../)+)src$",

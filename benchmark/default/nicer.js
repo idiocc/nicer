@@ -4,6 +4,7 @@ import Context from '../../test/context'
 import Nicer from '../../src'
 import NicerCompile from '../..'
 import Debug from '@idio/debug'
+export { default as context } from './context'
 
 const debug = Debug('nicerb')
 
