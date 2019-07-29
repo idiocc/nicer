@@ -1,6 +1,6 @@
 {
   "name": "nicer",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "An Http Multipart/Form-Data Request Body Parser.",
   "main": "compile/index.js",
   "module": "src/index.js",
